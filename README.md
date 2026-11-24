@@ -10,8 +10,6 @@
 
 ![The Afghanistan Province Charts playground](./docs/assets/playground-hero-light.png)
 
-![The Afghanistan Province Charts playground in dark mode](./docs/assets/playground-dark.png)
-
 Localized screenshots: [Dari](./docs/assets/playground-hero-prs.png) · [Pashto](./docs/assets/playground-hero-ps.png).
 
 > **Status:** `0.1.0` has not been published to npm yet. The public API
