@@ -8,7 +8,7 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
-- Full pnpm monorepo with `@afghan-province-charts/react` and a Vite playground.
+- Full pnpm monorepo with `afghanistan-province-chart` and a Vite playground.
 - Build-time geometry pipeline from preserved geoBoundaries AFG ADM1 data.
 - Reviewed mapping of all 34 source shapes to ISO 3166-2:AF codes, including
   corrections for Badakhshan and Kandahar.

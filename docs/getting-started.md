@@ -1,6 +1,6 @@
 # Getting started
 
-`@afghan-province-charts/react` is an ESM React component library that renders a
+`afghanistan-province-chart` is an ESM React component library that renders a
 responsive SVG map of Afghanistan's 34 provinces. It works in React 18 and 19,
 Vite, Next.js and any environment that supports server rendering plus SVG.
 
@@ -16,12 +16,12 @@ The library is ESM-only. It has no runtime dependencies.
 ## Install
 
 ```bash
-pnpm add @afghan-province-charts/react
+pnpm add afghanistan-province-chart
 ```
 
 ```tsx
-import { AfghanistanMap } from "@afghan-province-charts/react";
-import "@afghan-province-charts/react/styles.css";
+import { AfghanistanMap } from "afghanistan-province-chart";
+import "afghanistan-province-chart/styles.css";
 
 export default function Dashboard() {
   return <AfghanistanMap locale="en" height={480} />;
@@ -36,8 +36,8 @@ other component framework.
 
 ```tsx
 import { useState } from "react";
-import { AfghanistanMap, type ProvinceCode } from "@afghan-province-charts/react";
-import "@afghan-province-charts/react/styles.css";
+import { AfghanistanMap, type ProvinceCode } from "afghanistan-province-chart";
+import "afghanistan-province-chart/styles.css";
 
 export function ProvincePanel() {
   const [selected, setSelected] = useState<ProvinceCode | null>("AF-KAB");
@@ -63,8 +63,8 @@ never changes the `selectedProvince` prop itself.
 ## First choropleth
 
 ```tsx
-import { AfghanistanChoropleth } from "@afghan-province-charts/react";
-import "@afghan-province-charts/react/styles.css";
+import { AfghanistanChoropleth } from "afghanistan-province-chart";
+import "afghanistan-province-chart/styles.css";
 
 const data = {
   "AF-KAB": 96,

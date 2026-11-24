@@ -1,5 +1,5 @@
 {
-  "name": "@afghan-province-charts/playground",
+  "name": "afghanistan-province-chart-playground",
   "version": "0.1.0-beta.0",
   "private": true,
   "type": "module",
@@ -10,7 +10,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@afghan-province-charts/react": "workspace:*",
+    "afghanistan-province-chart": "workspace:*",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },

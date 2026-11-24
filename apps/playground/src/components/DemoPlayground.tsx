@@ -6,7 +6,7 @@ import {
   getProvinceByCode,
   type Locale,
   type ProvinceCode,
-} from "@afghan-province-charts/react";
+} from "afghanistan-province-chart";
 import { CodeBlock } from "./CodeBlock.js";
 import { SAMPLE_DATA, SAMPLE_METRIC_LABEL } from "../examples/sampleData.js";
 
@@ -48,8 +48,8 @@ function buildCode(
 import {
   AfghanistanChoropleth,
   type ProvinceCode,
-} from "@afghan-province-charts/react";
-import "@afghan-province-charts/react/styles.css";
+} from "afghanistan-province-chart";
+import "afghanistan-province-chart/styles.css";
 
 const data = {
   "AF-KAB": 96,
@@ -76,8 +76,8 @@ ${common}
 import {
   AfghanistanMap,
   type ProvinceCode,
-} from "@afghan-province-charts/react";
-import "@afghan-province-charts/react/styles.css";
+} from "afghanistan-province-chart";
+import "afghanistan-province-chart/styles.css";
 
 export default function MapCard() {
   const [selected, setSelected] = useState<ProvinceCode | null>("AF-KAB");

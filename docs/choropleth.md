@@ -4,8 +4,8 @@
 same interaction, localization and accessibility model as the map.
 
 ```tsx
-import { AfghanistanChoropleth } from "@afghan-province-charts/react";
-import "@afghan-province-charts/react/styles.css";
+import { AfghanistanChoropleth } from "afghanistan-province-chart";
+import "afghanistan-province-chart/styles.css";
 
 const data = {
   "AF-KAB": 96,
@@ -103,7 +103,7 @@ import type {
   ProvinceNumericData,
   ColorPalette,
   ValueFormatter,
-} from "@afghan-province-charts/react";
+} from "afghanistan-province-chart";
 ```
 
 See [api-reference.md](./api-reference.md) and

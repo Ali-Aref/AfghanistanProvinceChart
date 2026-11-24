@@ -66,11 +66,7 @@ Some source spellings are normalized publicly:
 ## Runtime lookup
 
 ```ts
-import {
-  getProvinceName,
-  getProvinces,
-  getLocaleDirection,
-} from "@afghan-province-charts/react";
+import { getProvinceName, getProvinces, getLocaleDirection } from "afghanistan-province-chart";
 
 getProvinceName("AF-KAN", "prs"); // "قندهار"
 getProvinceName("AF-KAN", "ps"); // "کندهار"

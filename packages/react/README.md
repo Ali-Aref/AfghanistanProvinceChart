@@ -1,4 +1,4 @@
-# @afghan-province-charts/react
+# afghanistan-province-chart
 
 Accessible, responsive SVG maps and choropleths for the 34 provinces of
 Afghanistan. React 18 and 19. No API keys, map services or runtime network
@@ -10,14 +10,14 @@ requests.
 ## Install
 
 ```bash
-pnpm add @afghan-province-charts/react
+pnpm add afghanistan-province-chart
 ```
 
 ## Map
 
 ```tsx
-import { AfghanistanMap } from "@afghan-province-charts/react";
-import "@afghan-province-charts/react/styles.css";
+import { AfghanistanMap } from "afghanistan-province-chart";
+import "afghanistan-province-chart/styles.css";
 
 export function MapCard() {
   return (
@@ -35,8 +35,8 @@ export function MapCard() {
 ## Choropleth
 
 ```tsx
-import { AfghanistanChoropleth } from "@afghan-province-charts/react";
-import "@afghan-province-charts/react/styles.css";
+import { AfghanistanChoropleth } from "afghanistan-province-chart";
+import "afghanistan-province-chart/styles.css";
 
 const data = {
   "AF-KAB": 96,
@@ -72,7 +72,7 @@ affects interface chrome only; the map geometry is never mirrored.
 
 ## Styling
 
-Import `@afghan-province-charts/react/styles.css` once. Override scoped variables on any
+Import `afghanistan-province-chart/styles.css` once. Override scoped variables on any
 ancestor or pass `colors`:
 
 ```tsx

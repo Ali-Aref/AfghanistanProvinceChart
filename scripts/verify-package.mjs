@@ -13,7 +13,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
-const workspace = await mkdtemp(join(tmpdir(), "afghan-province-charts-verify-"));
+const workspace = await mkdtemp(join(tmpdir(), "afghanistan-province-chart-verify-"));
 const artifacts = join(workspace, "artifacts");
 
 function run(command, args, cwd, extraEnv = {}) {
@@ -43,8 +43,8 @@ import {
   AfghanistanMap,
   getProvinceName,
   type ProvinceCode,
-} from "@afghan-province-charts/react";
-import "@afghan-province-charts/react/styles.css";
+} from "afghanistan-province-chart";
+import "afghanistan-province-chart/styles.css";
 import "./styles.css";
 
 const data = {
@@ -83,7 +83,7 @@ import { renderToString } from "react-dom/server";
 import {
   AfghanistanChoropleth,
   AfghanistanMap,
-} from "@afghan-province-charts/react";
+} from "afghanistan-province-chart";
 
 const map = renderToString(
   createElement(AfghanistanMap, { locale: "ps", showTooltip: false }),
@@ -113,7 +113,7 @@ async function verifyReact(major, tarball) {
     join(directory, "package.json"),
     JSON.stringify(
       {
-        name: `verify-afghan-province-charts-react-${major}`,
+        name: `verify-afghanistan-province-chart-${major}`,
         private: true,
         type: "module",
         scripts: {
@@ -121,7 +121,7 @@ async function verifyReact(major, tarball) {
           ssr: "node ssr.mjs",
         },
         dependencies: {
-          "@afghan-province-charts/react": `file:${tarball}`,
+          "afghanistan-province-chart": `file:${tarball}`,
           react: reactVersion,
           "react-dom": reactVersion,
         },
@@ -210,7 +210,7 @@ async function main() {
 
   run(
     "pnpm",
-    ["--filter", "@afghan-province-charts/react", "pack", "--pack-destination", artifacts],
+    ["--filter", "afghanistan-province-chart", "pack", "--pack-destination", artifacts],
     root,
   );
 

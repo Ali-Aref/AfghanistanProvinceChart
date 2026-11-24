@@ -3,15 +3,15 @@
 ## Package managers
 
 ```bash
-pnpm add @afghan-province-charts/react
+pnpm add afghanistan-province-chart
 ```
 
 ```bash
-npm install @afghan-province-charts/react
+npm install afghanistan-province-chart
 ```
 
 ```bash
-yarn add @afghan-province-charts/react
+yarn add afghanistan-province-chart
 ```
 
 > `0.1.0-beta.0` is not published to npm yet. Until it is published, install
@@ -27,7 +27,7 @@ The library is ESM-only and externalizes React. It has no runtime dependencies.
 ## Stylesheet
 
 ```ts
-import "@afghan-province-charts/react/styles.css";
+import "afghanistan-province-chart/styles.css";
 ```
 
 Import it once. It is not injected automatically, which keeps SSR and CSS
@@ -36,8 +36,8 @@ cascade order predictable.
 ## Verify the installation
 
 ```tsx
-import { AfghanistanMap } from "@afghan-province-charts/react";
-import "@afghan-province-charts/react/styles.css";
+import { AfghanistanMap } from "afghanistan-province-chart";
+import "afghanistan-province-chart/styles.css";
 
 export default function App() {
   return <AfghanistanMap locale="en" height={480} />;
@@ -51,14 +51,14 @@ You should see 34 province paths, a country outline and a working tooltip.
 From the repository root:
 
 ```bash
-pnpm --filter @afghan-province-charts/react build
-pnpm --filter @afghan-province-charts/react pack --pack-destination .artifacts
+pnpm --filter afghanistan-province-chart build
+pnpm --filter afghanistan-province-chart pack --pack-destination .artifacts
 ```
 
 In a consumer project:
 
 ```bash
-pnpm add /absolute/path/to/.artifacts/afghan-province-charts-react-0.1.0-beta.0.tgz
+pnpm add /absolute/path/to/.artifacts/afghanistan-province-chart-0.1.0-beta.0.tgz
 ```
 
 `pnpm verify:package` automates this for React 18 and React 19, including type
@@ -66,7 +66,7 @@ checking, Vite builds and SSR rendering.
 
 ## Common issues
 
-- **Unstyled map:** missing `@afghan-province-charts/react/styles.css` import.
+- **Unstyled map:** missing `afghanistan-province-chart/styles.css` import.
 - **React hooks error in Next.js:** add `"use client"` to the file using
   callbacks or controlled selection.
 - **Map has no height:** give the parent a width; optionally set `height`.

@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "@afghan-province-charts/react/styles.css";
+import "afghanistan-province-chart/styles.css";
 import App from "./App.js";
 import "./styles.css";
 

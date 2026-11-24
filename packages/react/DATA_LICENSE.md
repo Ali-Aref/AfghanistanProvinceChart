@@ -2,7 +2,7 @@
 
 This project contains two kinds of material with different licensing:
 
-1. **Original source code** in this repository and the `@afghan-province-charts/react`
+1. **Original source code** in this repository and the `afghanistan-province-chart`
    package is licensed under the MIT License. See [LICENSE](./LICENSE).
 2. **Geographic boundary data** is derived from geoBoundaries and carries its
    own provenance, public-domain status and attribution requirements, described

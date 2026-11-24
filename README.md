@@ -11,7 +11,7 @@
 > **Status:** `0.1.0-beta.0` has not been published to npm yet. The public API
 > and visual design have been reviewed. See [Release readiness](#release-readiness).
 
-`@afghan-province-charts/react` renders the country as a responsive SVG. No API keys, map
+`afghanistan-province-chart` renders the country as a responsive SVG. No API keys, map
 tiles, CDNs, external services or runtime network requests are involved. The
 package ships pre-projected geometry, a typed province registry, a data-driven
 choropleth and a two-stop color legend.
@@ -41,12 +41,12 @@ choropleth and a two-stop color legend.
 ## Quick start
 
 ```bash
-pnpm add @afghan-province-charts/react
+pnpm add afghanistan-province-chart
 ```
 
 ```tsx
-import { AfghanistanMap } from "@afghan-province-charts/react";
-import "@afghan-province-charts/react/styles.css";
+import { AfghanistanMap } from "afghanistan-province-chart";
+import "afghanistan-province-chart/styles.css";
 
 export default function Dashboard() {
   return (
@@ -67,8 +67,8 @@ grids, side panels and full-page layouts.
 ## Choropleth
 
 ```tsx
-import { AfghanistanChoropleth } from "@afghan-province-charts/react";
-import "@afghan-province-charts/react/styles.css";
+import { AfghanistanChoropleth } from "afghanistan-province-chart";
+import "afghanistan-province-chart/styles.css";
 
 const reach = {
   "AF-KAB": 96,
@@ -95,7 +95,7 @@ export function Report() {
 
 ```tsx
 import { useState } from "react";
-import { AfghanistanMap, type ProvinceCode } from "@afghan-province-charts/react";
+import { AfghanistanMap, type ProvinceCode } from "afghanistan-province-chart";
 
 export function ProvincePicker() {
   const [selected, setSelected] = useState<ProvinceCode | null>(null);
@@ -204,7 +204,7 @@ pnpm dev
 
 ```bash
 pnpm build
-pnpm --filter @afghan-province-charts/playground preview
+pnpm --filter afghanistan-province-chart-playground preview
 ```
 
 Screenshots in this README are captured from that running playground by the
@@ -258,7 +258,7 @@ The npm package has not been published yet. Before `npm publish`:
 - [x] Package exports, declarations and packed tarball inspected.
 - [x] Public API and visual design reviewed by the maintainer.
 - [x] Package repository URL points to this GitHub repository.
-- [ ] Confirm npm scope ownership for `@afghan-province-charts`.
+- [x] Check that `afghanistan-province-chart` is not currently listed on npm (recheck before publishing).
 - [ ] Publish `0.1.0-beta.0` when the maintainer is ready.
 
 ## Contributing

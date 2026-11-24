@@ -113,7 +113,7 @@ PLAYWRIGHT_CHANNEL=chrome pnpm test:e2e
 
 The maintainer handles releases. Before publishing:
 
-1. Confirm access to the `@afghan-province-charts` npm scope.
+1. Confirm the package name is still available on npm (for the first release) and sign in to an npm account authorized to publish it.
 2. Update the version and changelog.
 3. Run the checks above, pack the package and inspect its contents.
 4. Publish using an authorized npm account.
