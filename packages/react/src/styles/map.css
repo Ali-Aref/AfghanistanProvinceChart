@@ -29,6 +29,13 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.af-map[data-af-locale="prs"],
+.af-map[data-af-locale="ps"],
+.af-legend[lang="fa-AF"],
+.af-legend[lang="ps-AF"] {
+  --af-map-font: "Vazirmatn", "Noto Naskh Arabic", Tahoma, system-ui, sans-serif;
+}
+
 .af-map__svg {
   display: block;
   width: 100%;
@@ -111,6 +118,11 @@
 .af-map__label--small {
   font-size: 14px;
   stroke-width: 3px;
+}
+
+.af-map[data-af-locale="prs"] .af-map__label,
+.af-map[data-af-locale="ps"] .af-map__label {
+  letter-spacing: normal;
 }
 
 .af-map__tooltip {
@@ -202,7 +214,7 @@
   gap: 6px;
   padding: 0 2px;
   color: var(--af-map-label);
-  font-family: var(--af-map-font);
+  font-family: var(--af-map-font, system-ui, "Noto Naskh Arabic", sans-serif);
   font-size: 12px;
   line-height: 1.4;
 }

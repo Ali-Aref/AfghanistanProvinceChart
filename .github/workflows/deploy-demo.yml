@@ -1,0 +1,113 @@
+name: Deploy demo
+
+on:
+  push:
+    branches: [production]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Queue deployments rather than interrupting a publication in progress.
+concurrency:
+  group: demo-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/production'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.17.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm lint
+      - run: pnpm build:lib
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm data:validate
+      - run: pnpm build
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Browser tests
+        run: pnpm test:e2e
+
+      - name: Upload static demo
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-site
+          path: apps/playground/dist/
+          if-no-files-found: error
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: demo-production
+    steps:
+      - name: Download static demo
+        uses: actions/download-artifact@v4
+        with:
+          name: demo-site
+          path: site
+
+      - name: Validate VPS configuration
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_SSH_KNOWN_HOSTS: ${{ secrets.VPS_SSH_KNOWN_HOSTS }}
+        run: |
+          test -n "$VPS_HOST" && test -n "$VPS_USER" && test -n "$VPS_SSH_KNOWN_HOSTS"
+          [[ "${VPS_PORT:-22}" =~ ^[0-9]+$ ]]
+
+      - name: Start SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+
+      - name: Trust verified VPS host key
+        env:
+          VPS_SSH_KNOWN_HOSTS: ${{ secrets.VPS_SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$VPS_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Upload and publish demo
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          set -euo pipefail
+          site_dir=/var/www/afghanistan-province-chart.aliaref.dev
+          release="$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          remote="$VPS_USER@$VPS_HOST"
+          ssh -o StrictHostKeyChecking=yes -p "${VPS_PORT:-22}" "$remote" \
+            "mkdir -p '$site_dir/releases/$release'"
+          rsync -az --delete -e "ssh -o StrictHostKeyChecking=yes -p ${VPS_PORT:-22}" \
+            site/ "$remote:$site_dir/releases/$release/"
+          ssh -o StrictHostKeyChecking=yes -p "${VPS_PORT:-22}" "$remote" \
+            "bash -se -- '$release'" <<'REMOTE'
+          set -euo pipefail
+          site_dir=/var/www/afghanistan-province-chart.aliaref.dev
+          release_dir="$site_dir/releases/$1"
+          test -f "$release_dir/index.html"
+          test -f "$release_dir/prs/index.html"
+          test -f "$release_dir/ps/index.html"
+          ln -s "$release_dir" "$site_dir/.current-$1"
+          mv -Tf "$site_dir/.current-$1" "$site_dir/current"
+          REMOTE

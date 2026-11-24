@@ -1,5 +1,7 @@
 # Documentation
 
+Languages: **English** (this page) · [دری / Dari](./prs/README.md) · [پښتو / Pashto](./ps/README.md). The English API and legal/source documents remain the canonical references.
+
 Start here:
 
 - [Getting started](./getting-started.md) — install, first map, first choropleth.
@@ -33,4 +35,6 @@ the Playwright suite (`e2e/playground.spec.ts`). They show:
 - `playground-light.png` — playground in the light theme.
 - `playground-dark.png` — playground in the dark theme.
 - `playground-choropleth-dark.png` — Dari RTL choropleth in dark mode.
+- `playground-hero-prs.png` — Dari RTL landing hero.
+- `playground-hero-ps.png` — Pashto RTL landing hero.
 - `playground-mobile-light.png` — mobile hero.

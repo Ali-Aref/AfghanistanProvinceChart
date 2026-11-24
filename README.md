@@ -1,5 +1,7 @@
 # Afghanistan Province Charts
 
+**Documentation languages:** [English](./docs/README.md) · [Dari](./docs/prs/README.md) · [Pashto](./docs/ps/README.md).
+
 **Interactive, accessible React maps and choropleths for the 34 provinces of Afghanistan.**
 
 [![React](https://img.shields.io/badge/React-18%20%7C%2019-087ea4?style=flat-square)](#compatibility)
@@ -7,6 +9,8 @@
 [![License](https://img.shields.io/badge/license-MIT-0f766e?style=flat-square)](./LICENSE)
 
 ![The Afghanistan Province Charts playground](./docs/assets/playground-hero-light.png)
+
+Localized screenshots: [Dari](./docs/assets/playground-hero-prs.png) · [Pashto](./docs/assets/playground-hero-ps.png).
 
 > **Status:** `0.1.0` has not been published to npm yet. The public API
 > and visual design have been reviewed. See [Release readiness](#release-readiness).

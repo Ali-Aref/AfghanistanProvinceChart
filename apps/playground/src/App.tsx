@@ -2,13 +2,24 @@ import { useEffect, useState } from "react";
 import {
   AfghanistanChoropleth,
   AfghanistanMap,
-  getProvinceByCode,
+  INTL_LOCALES,
+  getProvinceName,
   type Locale,
 } from "afghanistan-province-chart";
 import { ApiReference } from "./components/ApiReference.js";
 import { CodeBlock } from "./components/CodeBlock.js";
 import { DemoPlayground } from "./components/DemoPlayground.js";
-import { SAMPLE_DATA, SAMPLE_METRIC_LABEL, SAMPLE_TOP_VALUES } from "./examples/sampleData.js";
+import { SAMPLE_DATA, SAMPLE_TOP_VALUES } from "./examples/sampleData.js";
+import {
+  SHOWCASE_MESSAGES,
+  SITE_LANG,
+  applyDocumentLocale,
+  getBasePath,
+  isLocale,
+  localeFromPath,
+  localePath,
+  preferredLocale,
+} from "./i18n.js";
 
 type Theme = "light" | "dark";
 
@@ -51,28 +62,7 @@ export function ProvinceReport({ data }: { data: Record<string, number> }) {
   );
 }`;
 
-const FEATURES = [
-  {
-    icon: "map",
-    title: "34 real province paths",
-    body: "Build-time projected geometry from geoBoundaries ADM1. Exact ISO 3166-2 identifiers, no positional guesses.",
-  },
-  {
-    icon: "keyboard",
-    title: "Keyboard and screen-reader ready",
-    body: "Roving focus, arrow-key navigation, Enter and Space activation, live announcements and visible focus rings.",
-  },
-  {
-    icon: "globe",
-    title: "English · Dari · Pashto",
-    body: "Localized names and interface chrome with RTL tooltips and legends — the physical map is never mirrored.",
-  },
-  {
-    icon: "bolt",
-    title: "No map service required",
-    body: "No API keys, tiles, CDNs or runtime network requests. Just a typed React component and ~32 kB gzipped JS.",
-  },
-] as const;
+const FEATURES = ["map", "keyboard", "globe", "bolt"] as const;
 
 const LOCALIZED_CARDS: Array<{
   title: string;
@@ -82,13 +72,28 @@ const LOCALIZED_CARDS: Array<{
   direction: "ltr" | "rtl";
 }> = [
   { title: "English", locale: "en", script: "Latin", name: "Kabul", direction: "ltr" },
-  { title: "Dari", locale: "prs", script: "دری", name: "کابل", direction: "rtl" },
-  { title: "Pashto", locale: "ps", script: "پښتو", name: "کابل", direction: "rtl" },
+  { title: "دری", locale: "prs", script: "فارسی افغانستان", name: "کابل", direction: "rtl" },
+  { title: "پښتو", locale: "ps", script: "پښتو", name: "کابل", direction: "rtl" },
 ];
 
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "light";
   return window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function getInitialLocale(): Locale {
+  if (typeof window === "undefined") return "en";
+  const fromPath = localeFromPath(window.location.pathname);
+  if (fromPath) return fromPath;
+  // A bare URL is always English unless the visitor has chosen a language or
+  // explicitly prefers an Afghan language. No guess is made for fa-IR.
+  try {
+    const saved = window.localStorage.getItem("af-showcase-locale");
+    if (saved && isLocale(saved)) return saved;
+  } catch {
+    // Storage can be disabled without disabling the language switcher.
+  }
+  return preferredLocale(navigator.languages ?? [navigator.language]);
 }
 
 function FeatureIcon({ name }: { name: string }) {
@@ -125,7 +130,44 @@ function FeatureIcon({ name }: { name: string }) {
 
 export default function App() {
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
+  const [locale, setLocale] = useState<Locale>(getInitialLocale);
   const [installCopied, setInstallCopied] = useState(false);
+  const t = SHOWCASE_MESSAGES[locale].site;
+  const basePath = typeof window === "undefined" ? "/" : getBasePath(window.location.pathname);
+
+  useEffect(() => {
+    applyDocumentLocale(locale);
+  }, [locale]);
+
+  useEffect(() => {
+    if (locale !== "en" && !localeFromPath(window.location.pathname)) {
+      window.history.replaceState(
+        null,
+        "",
+        `${localePath(basePath, locale)}${window.location.search}${window.location.hash}`,
+      );
+    }
+  }, [basePath, locale]);
+
+  useEffect(() => {
+    const syncLocation = () => setLocale(localeFromPath(window.location.pathname) ?? "en");
+    window.addEventListener("popstate", syncLocation);
+    return () => window.removeEventListener("popstate", syncLocation);
+  }, []);
+
+  const changeLocale = (next: Locale) => {
+    setLocale(next);
+    window.history.pushState(
+      null,
+      "",
+      `${localePath(basePath, next)}${window.location.search}${window.location.hash}`,
+    );
+    try {
+      window.localStorage.setItem("af-showcase-locale", next);
+    } catch {
+      // Browser storage is optional.
+    }
+  };
 
   useEffect(() => {
     const root = document.documentElement;
@@ -152,7 +194,7 @@ export default function App() {
   return (
     <div className="pg" data-theme={theme}>
       <a className="pg-skip" href="#main">
-        Skip to content
+        {t.skip}
       </a>
 
       <header className="pg-header">
@@ -161,21 +203,39 @@ export default function App() {
             A
           </span>
           <span>
-            <strong>Afghanistan</strong>
-            <small>Province Charts</small>
+            <strong>{t.brand}</strong>
+            <small>{t.brandSubtitle}</small>
           </span>
         </a>
-        <nav className="pg-nav" aria-label="Primary">
-          <a href="#playground">Playground</a>
-          <a href="#choropleth">Choropleth</a>
-          <a href="#api">API</a>
-          <a href="#docs">Docs</a>
+        <nav className="pg-nav" aria-label={t.primaryNav}>
+          <a href="#playground">{t.playground}</a>
+          <a href="#choropleth">{t.choropleth}</a>
+          <a href="#api">{t.api}</a>
+          <a href="#docs">{t.docs}</a>
         </nav>
+        <label className="pg-site-language">
+          <span className="pg-sr-only">{t.language}</span>
+          <select
+            aria-label={t.language}
+            value={locale}
+            onChange={(event) => changeLocale(event.target.value as Locale)}
+          >
+            <option value="en" lang="en">
+              English
+            </option>
+            <option value="prs" lang="fa-AF">
+              دری
+            </option>
+            <option value="ps" lang="ps-AF">
+              پښتو
+            </option>
+          </select>
+        </label>
         <button
           className="pg-theme-toggle"
           type="button"
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+          aria-label={t.switchTheme.replace("{theme}", theme === "dark" ? t.light : t.dark)}
         >
           {theme === "dark" ? (
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -187,7 +247,7 @@ export default function App() {
               <path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5z" />
             </svg>
           )}
-          <span>{theme === "dark" ? "Light" : "Dark"}</span>
+          <span>{theme === "dark" ? t.light : t.dark}</span>
         </button>
       </header>
 
@@ -196,36 +256,32 @@ export default function App() {
           <div className="pg-hero-copy">
             <span className="pg-pill">
               <span className="pg-pill-dot" aria-hidden="true" />
-              v0.1.0 · MIT · no API keys
+              {t.heroBadge}
             </span>
             <h1>
-              Afghanistan,
+              {t.heroTitle}
               <br />
-              <em>province by province.</em>
+              <em>{t.heroEmphasis}</em>
             </h1>
-            <p className="pg-lede">
-              A developer-first React library for interactive maps and data-driven choropleths
-              of all 34 provinces. Typed, accessible, localization-ready and completely
-              self-contained.
-            </p>
+            <p className="pg-lede">{t.heroDescription}</p>
             <div className="pg-hero-actions">
               <a className="pg-button" href="#playground">
-                Try the playground
+                {t.tryPlayground}
               </a>
               <a className="pg-button pg-button--ghost" href="#api">
-                Browse the API
+                {t.browseApi}
               </a>
             </div>
             <div className="pg-install">
-              <code>{INSTALL_COMMAND}</code>
-              <button type="button" onClick={copyInstall} aria-label="Copy install command">
-                {installCopied ? "Copied" : "Copy"}
+              <code dir="ltr">{INSTALL_COMMAND}</code>
+              <button type="button" onClick={copyInstall} aria-label={t.copyInstall}>
+                {installCopied ? t.copied : t.copy}
               </button>
             </div>
             <ul className="pg-hero-points">
-              <li>34 canonical ISO codes</li>
-              <li>Mouse, touch and keyboard</li>
-              <li>Dari and Pashto RTL UI</li>
+              <li>{t.heroPointCodes}</li>
+              <li>{t.heroPointInput}</li>
+              <li>{t.heroPointRtl}</li>
             </ul>
           </div>
 
@@ -234,128 +290,122 @@ export default function App() {
             <div className="pg-orbit pg-orbit--two" aria-hidden="true" />
             <div className="pg-hero-map-frame">
               <AfghanistanMap
+                locale={locale}
                 defaultSelectedProvince="AF-KAB"
                 showTooltip={false}
                 colors={heroPalette}
-                ariaLabel="Preview map of Afghanistan's provinces"
+                ariaLabel={t.previewMap}
               />
               <div className="pg-hero-map-caption">
-                <span>34 provinces</span>
-                <span>1 lightweight SVG</span>
+                <span>{t.provinces}</span>
+                <span>{t.oneSvg}</span>
               </div>
             </div>
             <div className="pg-float-card">
-              <span className="pg-float-kicker">Localized</span>
-              <strong>3 languages</strong>
+              <span className="pg-float-kicker">{t.localized}</span>
+              <strong>{t.threeLanguages}</strong>
               <span>EN · دری · پښتو</span>
             </div>
           </div>
         </section>
 
-        <section className="pg-features" aria-label="Library highlights">
-          {FEATURES.map((feature) => (
-            <article className="pg-feature" key={feature.title}>
+        <section className="pg-features" aria-label={t.highlights}>
+          {FEATURES.map((icon, index) => (
+            <article className="pg-feature" key={icon}>
               <span className="pg-feature-icon">
-                <FeatureIcon name={feature.icon} />
+                <FeatureIcon name={icon} />
               </span>
-              <h2>{feature.title}</h2>
-              <p>{feature.body}</p>
+              <h2>{t.features[index]?.title}</h2>
+              <p>{t.features[index]?.body}</p>
             </article>
           ))}
         </section>
 
         <section className="pg-section" id="playground">
           <div className="pg-section-head">
-            <span className="pg-eyebrow">Live playground</span>
-            <h2>Every prop, one map.</h2>
-            <p>
-              Change the language, theme and colors. Switch to a choropleth to see missing
-              values kept distinct from zero. The code panel always matches the preview.
-            </p>
+            <span className="pg-eyebrow">{t.livePlayground}</span>
+            <h2>{t.playgroundTitle}</h2>
+            <p>{t.playgroundDescription}</p>
           </div>
-          <DemoPlayground theme={theme} />
+          <DemoPlayground theme={theme} siteLocale={locale} metricLabel={t.metric} />
         </section>
 
         <section className="pg-section" id="choropleth">
           <div className="pg-section-head">
-            <span className="pg-eyebrow">Data visualization</span>
-            <h2>Data without losing the map.</h2>
-            <p>
-              Partial datasets are first-class. Missing values get their own color, zero keeps
-              its real scale position, and the legend, tooltip and screen-reader label all
-              agree.
-            </p>
+            <span className="pg-eyebrow">{t.dataViz}</span>
+            <h2>{t.dataTitle}</h2>
+            <p>{t.dataDescription}</p>
           </div>
 
           <div className="pg-showcase">
             <div className="pg-showcase-map">
               <div className="pg-showcase-head">
-                <span className="pg-eyebrow">Illustrative dataset</span>
-                <span className="pg-chip">0–100</span>
+                <span className="pg-eyebrow">{t.illustrativeDataset}</span>
+                <span className="pg-chip" dir="ltr">
+                  0–100
+                </span>
               </div>
               <AfghanistanChoropleth
+                locale={locale}
                 data={SAMPLE_DATA}
                 defaultSelectedProvince="AF-HER"
                 showLegend
-                legendTitle={SAMPLE_METRIC_LABEL}
+                legendTitle={t.metric}
               />
             </div>
             <div className="pg-showcase-copy">
-              <h3>Missing is not zero.</h3>
-              <p>
-                Six provinces deliberately have no value in this demo. They render in the
-                neutral missing-data color instead of collapsing to the bottom of the scale.
-              </p>
-              <ol className="pg-rank" aria-label="Highest illustrative sample values">
+              <h3>{t.missingTitle}</h3>
+              <p>{t.missingDescription}</p>
+              <ol className="pg-rank" aria-label={t.highestValues}>
                 {SAMPLE_TOP_VALUES.map(({ code, value }, index) => {
-                  const province = getProvinceByCode(code);
                   return (
                     <li key={code}>
-                      <span className="pg-rank-index">
+                      <span className="pg-rank-index" dir="ltr">
                         {String(index + 1).padStart(2, "0")}
                       </span>
-                      <span className="pg-rank-name">{province.names.en}</span>
+                      <span className="pg-rank-name" lang={SITE_LANG[locale]}>
+                        {getProvinceName(code, locale)}
+                      </span>
                       <span
                         className="pg-rank-bar"
                         style={{ width: `${value}%` }}
                         aria-hidden="true"
                       />
-                      <strong>{value}</strong>
+                      <strong>
+                        {new Intl.NumberFormat(INTL_LOCALES[locale]).format(value)}
+                      </strong>
                     </li>
                   );
                 })}
               </ol>
-              <p className="pg-note">
-                These numbers are fabricated for the demo and are not official statistics.
-              </p>
+              <p className="pg-note">{t.fabricated}</p>
             </div>
           </div>
         </section>
 
         <section className="pg-section" id="api">
           <div className="pg-section-head">
-            <span className="pg-eyebrow">API reference</span>
-            <h2>Small surface. Strong types.</h2>
-            <p>
-              Everything is exported from the package root, including the ISO province union,
-              interaction payloads and tooltip context. No deep imports required.
-            </p>
+            <span className="pg-eyebrow">{t.apiReference}</span>
+            <h2>{t.apiTitle}</h2>
+            <p>{t.apiDescription}</p>
           </div>
-          <ApiReference />
+          <ApiReference locale={locale} />
         </section>
 
         <section className="pg-section" id="localization">
           <div className="pg-section-head">
-            <span className="pg-eyebrow">Localization</span>
-            <h2>Three languages. One geography.</h2>
-            <p>
-              Switch locale at runtime. Province identifiers never change, and RTL applies to
-              interface chrome only — the country is not flipped.
-            </p>
+            <span className="pg-eyebrow">{t.localization}</span>
+            <h2>{t.localizationTitle}</h2>
+            <p>{t.localizationDescription}</p>
           </div>
           <div className="pg-locale-grid">
             {LOCALIZED_CARDS.map((card) => (
-              <article className="pg-locale-card" key={card.locale} dir={card.direction}>
+              <article
+                className="pg-locale-card"
+                key={card.locale}
+                dir={card.direction}
+                lang={SITE_LANG[card.locale]}
+              >
                 <span className="pg-eyebrow">{card.title}</span>
                 <strong>{card.name}</strong>
                 <span className="pg-locale-meta">
@@ -364,74 +414,69 @@ export default function App() {
               </article>
             ))}
           </div>
-          <p className="pg-note pg-note--center">
-            Names were checked against Persian and Pashto Wikipedia province lists. Dialectal
-            spellings vary; corrections are welcome.
-          </p>
+          <p className="pg-note pg-note--center">{t.nameSources}</p>
         </section>
 
         <section className="pg-section" id="docs">
           <div className="pg-section-head">
-            <span className="pg-eyebrow">Documentation</span>
-            <h2>From install to dashboard.</h2>
-            <p>
-              The repository ships a playground, API docs, localization notes and a data
-              provenance record. Start with three lines of code.
-            </p>
+            <span className="pg-eyebrow">{t.documentation}</span>
+            <h2>{t.docsTitle}</h2>
+            <p>{t.docsDescription}</p>
+            <a
+              className="pg-docs-link"
+              href={`https://github.com/Ali-Aref/AfghanistanProvinceChart/blob/production/docs/${locale === "en" ? "" : `${locale}/`}README.md`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t.fullGuide}
+            </a>
           </div>
 
           <div className="pg-docs-grid">
             <article className="pg-doc-card">
               <span className="pg-step">01</span>
-              <h3>Install</h3>
-              <p>Add the package with pnpm, then import the scoped stylesheet once.</p>
-              <CodeBlock code={INSTALL_COMMAND} label="sh" />
+              <h3>{t.install}</h3>
+              <p>{t.installDescription}</p>
+              <CodeBlock code={INSTALL_COMMAND} label="sh" locale={locale} />
             </article>
             <article className="pg-doc-card">
               <span className="pg-step">02</span>
-              <h3>Render</h3>
-              <p>Drop the map into any card, grid, panel or full-page layout.</p>
-              <CodeBlock code={QUICK_START} />
+              <h3>{t.render}</h3>
+              <p>{t.renderDescription}</p>
+              <CodeBlock code={QUICK_START} locale={locale} />
             </article>
             <article className="pg-doc-card">
               <span className="pg-step">03</span>
-              <h3>Next.js</h3>
+              <h3 lang="en" dir="ltr">
+                Next.js
+              </h3>
               <p>
-                Components are SSR-safe. Add <code>&quot;use client&quot;</code> when you pass
-                callbacks or control selection.
+                {t.nextDescription} <code dir="ltr">&quot;use client&quot;</code>{" "}
+                {t.nextDescriptionEnd}
               </p>
-              <CodeBlock code={NEXT_STEPS} />
+              <CodeBlock code={NEXT_STEPS} locale={locale} />
             </article>
           </div>
 
           <div className="pg-data-card">
             <div>
-              <span className="pg-eyebrow">Geographic data</span>
-              <h3>Reproducible, attributed, bundled locally.</h3>
-              <p>
-                Geometry comes from geoBoundaries <code>gbOpen</code> AFG ADM1 (boundary year
-                2007). The boundary dataset is public domain; geoBoundaries project code and
-                derivative works are CC BY 4.0 and require attribution. Two source codes (
-                <code>AF_BDN</code> and <code>AF_KAN</code>) are normalised to ISO 3166-2.
-              </p>
-              <p>
-                The source GeoJSON, checksum, reviewed name mapping and generation script are
-                kept in the repository. Projection happens at build time, so D3 is not shipped
-                to the browser.
-              </p>
+              <span className="pg-eyebrow">{t.geographicData}</span>
+              <h3>{t.geographicTitle}</h3>
+              <p>{t.geographicDescription}</p>
+              <p>{t.geographicSource}</p>
             </div>
             <div className="pg-data-stats">
               <div>
                 <strong>34</strong>
-                <span>ADM1 units</span>
+                <span>{t.admUnits}</span>
               </div>
               <div>
                 <strong>2007</strong>
-                <span>boundary year</span>
+                <span>{t.boundaryYear}</span>
               </div>
               <div>
                 <strong>0</strong>
-                <span>runtime downloads</span>
+                <span>{t.runtimeDownloads}</span>
               </div>
             </div>
             <a
@@ -440,7 +485,9 @@ export default function App() {
               target="_blank"
               rel="noreferrer"
             >
-              geoBoundaries.org
+              <span lang="en" dir="ltr">
+                geoBoundaries.org
+              </span>
             </a>
           </div>
         </section>
@@ -453,20 +500,19 @@ export default function App() {
               A
             </span>
             <span>
-              <strong>Afghanistan Province Charts</strong>
-              <small>afghanistan-province-chart</small>
+              <strong>{t.brandFull}</strong>
+              <small lang="en" dir="ltr">
+                afghanistan-province-chart
+              </small>
             </span>
           </a>
-          <p>
-            MIT-licensed source. Boundary data public domain, with geoBoundaries attribution.
-            Not a legal or survey-grade boundary source.
-          </p>
+          <p>{t.footerNote}</p>
         </div>
-        <nav aria-label="Footer">
-          <a href="#playground">Playground</a>
-          <a href="#api">API</a>
-          <a href="#docs">Docs</a>
-          <a href="#localization">Localization</a>
+        <nav aria-label={t.footerNav}>
+          <a href="#playground">{t.playground}</a>
+          <a href="#api">{t.api}</a>
+          <a href="#docs">{t.docs}</a>
+          <a href="#localization">{t.localization}</a>
         </nav>
       </footer>
     </div>

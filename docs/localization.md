@@ -1,5 +1,7 @@
 # Localization
 
+[دری / Dari](./prs/localization.md) · [پښتو / Pashto](./ps/localization.md)
+
 The package supports three interface locales:
 
 | Code  | Language | Direction |
@@ -26,6 +28,13 @@ Locale is a prop, not a document-wide setting. Switching it re-renders names,
 tooltips, legends and accessible copy without a page reload. It does not depend
 on `<html lang>` and does not require a provider.
 
+The playground/documentation site additionally has whole-page translations at
+`/` (English), `/prs/` (Dari) and `/ps/` (Pashto). Its header switcher updates
+the URL, page metadata and document `lang`/`dir`; the demo's separate map-language
+control can override only the demo. The site remembers the chosen language,
+prefers a supported browser language on first visit, and defaults to English.
+Generic `fa-IR` is not automatically treated as Afghan Dari.
+
 ## What is localized
 
 - All 34 province names.
@@ -46,6 +55,13 @@ Province identifiers are always canonical ISO codes:
 The physical map is never mirrored under RTL. Text direction affects tooltip
 content, legend order and gradient direction only. This is intentional: mirroring
 geography would misrepresent the country.
+
+RTL text uses Vazirmatn first, then a local fallback. The library does not
+download or bundle a font: applications should load Vazirmatn themselves if
+they want consistent typography on devices without it. The playground
+self-hosts the font under the SIL Open Font License.
+See the [font license](../apps/playground/public/fonts/OFL.txt) and the
+[Vazirmatn project](https://github.com/rastikerdar/vazirmatn).
 
 ## Name sources
 

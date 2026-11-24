@@ -2,7 +2,8 @@
 
 `dev` is the development branch. `production` contains the code eligible for an
 npm release. CI runs on pushes to both branches and on pull requests targeting
-either branch. Neither branch publishes automatically.
+either branch. npm never publishes automatically; the demo site deploys on
+successful pushes to `production` after its own checks and browser tests.
 
 ## One-time GitHub and npm setup
 
@@ -35,5 +36,6 @@ credential. Only run it after checking the environment and npm settings.
 3. Check the published version and install it in a consumer project. Do not
    re-run the workflow for the same version; npm package versions are immutable.
 
-The playground is a static demo; this workflow publishes the npm package, not
-the demo website.
+The playground is a static demo; the Release workflow publishes the npm package,
+not the demo website. See [demo deployment](deploy-demo.md) for the separate
+automatic website workflow.

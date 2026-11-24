@@ -116,9 +116,31 @@ describe("AfghanistanMap", () => {
     const tooltip = screen.getByRole("tooltip");
     expect(tooltip).toHaveTextContent("کابل");
     expect(tooltip).toHaveAttribute("dir", "rtl");
+    expect(container.querySelector(".af-map")).toHaveAttribute("lang", "fa-AF");
+    expect(container.querySelector(".af-map__sr-only")).toHaveAttribute("dir", "rtl");
     expect(container.querySelector("svg")?.getAttribute("viewBox")).toBe(
       `0 0 ${AFGHANISTAN_VIEWBOX.width} ${AFGHANISTAN_VIEWBOX.height}`,
     );
+  });
+
+  it("switches accessible map text, labels and tooltip to Pashto at runtime", () => {
+    const { container, rerender } = render(<AfghanistanMap locale="en" showProvinceLabels />);
+    const viewBox = container.querySelector("svg")?.getAttribute("viewBox");
+    rerender(<AfghanistanMap locale="ps" showProvinceLabels />);
+
+    expect(container.querySelector(".af-map")).toHaveAttribute("lang", "ps-AF");
+    expect(
+      screen.getByRole("group", { name: /د افغانستان د ۳۴ ولایتونو/ }),
+    ).toBeInTheDocument();
+    expect(container.querySelector("svg desc")).toHaveTextContent("Enter");
+    expect(container.querySelectorAll(".af-map__label")).toHaveLength(34);
+    expect(container.querySelector("svg")?.getAttribute("viewBox")).toBe(viewBox);
+
+    const kandahar = screen.getByRole("button", { name: "کندهار" });
+    fireEvent.focus(kandahar);
+    expect(screen.getByRole("tooltip")).toHaveAttribute("lang", "ps-AF");
+    expect(screen.getByRole("tooltip")).toHaveAttribute("dir", "rtl");
+    expect(container.querySelector(".af-map__sr-only")).toHaveTextContent("کندهار");
   });
 
   it("supports custom tooltip content", () => {
