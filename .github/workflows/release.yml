@@ -3,11 +3,13 @@ name: Release
 # Manual, approval-gated publication.
 #
 # Before enabling:
-#   1. Create an `npm-production` GitHub environment and require reviewers.
-#   2. Configure npm Trusted Publishing for this repository + workflow in the
+#   1. Protect the `production` branch and require passing CI checks.
+#   2. Create an `npm-production` GitHub environment, require reviewers and
+#      restrict deployments to the `production` branch.
+#   3. Configure npm Trusted Publishing for this repository + workflow in the
 #      npm package settings ("Trusted Publisher" -> GitHub Actions).
-#   3. Confirm access to publish `afghanistan-province-chart` on npm.
-#   4. Update the version in packages/react/package.json and CHANGELOG.md.
+#   4. Confirm access to publish `afghanistan-province-chart` on npm.
+#   5. Update the version in packages/react/package.json and CHANGELOG.md.
 #
 # The workflow never runs on push. It uses OIDC, not a long-lived npm token.
 
@@ -30,6 +32,7 @@ concurrency:
 jobs:
   publish:
     name: Publish afghanistan-province-chart
+    if: github.ref == 'refs/heads/production'
     runs-on: ubuntu-latest
     environment: npm-production
     steps:
@@ -71,6 +74,12 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Playwright tests
+        run: pnpm test:e2e
 
       - name: Verify package metadata
         run: pnpm package:check

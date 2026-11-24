@@ -261,6 +261,9 @@ The npm package has not been published yet. Before `npm publish`:
 - [x] Check that `afghanistan-province-chart` is not currently listed on npm (recheck before publishing).
 - [ ] Publish `0.1.0` when the maintainer is ready.
 
+For the `dev` → `production` release flow and required GitHub/npm settings, see
+[docs/releasing.md](./docs/releasing.md).
+
 ## Contributing
 
 Issues and pull requests are welcome. Please read
