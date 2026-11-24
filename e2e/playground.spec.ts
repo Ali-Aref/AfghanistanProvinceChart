@@ -161,6 +161,12 @@ test.describe("playground", () => {
     await page.waitForTimeout(300);
     await page.screenshot({ path: "docs/assets/playground-choropleth-dark.png" });
 
+    for (const locale of ["prs", "ps"] as const) {
+      await page.goto(`/${locale}/`, { waitUntil: "networkidle" });
+      await page.evaluate(() => document.fonts.ready);
+      await page.screenshot({ path: `docs/assets/playground-hero-${locale}.png` });
+    }
+
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/", { waitUntil: "networkidle" });
     await page.screenshot({ path: "docs/assets/playground-mobile-light.png" });

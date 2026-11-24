@@ -10,6 +10,8 @@
 
 ![The Afghanistan Province Charts playground](./docs/assets/playground-hero-light.png)
 
+Localized screenshots: [Dari / دری](./docs/assets/playground-hero-prs.png) · [Pashto / پښتو](./docs/assets/playground-hero-ps.png).
+
 > **Status:** `0.1.0` has not been published to npm yet. The public API
 > and visual design have been reviewed. See [Release readiness](#release-readiness).
 
