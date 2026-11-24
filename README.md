@@ -4,6 +4,8 @@
 
 **Interactive, accessible React maps and choropleths for the 34 provinces of Afghanistan.**
 
+**[Open the live demo](https://afghanistan-province-chart.aliaref.dev/)**
+
 [![React](https://img.shields.io/badge/React-18%20%7C%2019-087ea4?style=flat-square)](#compatibility)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat-square)](#typescript)
 [![License](https://img.shields.io/badge/license-MIT-0f766e?style=flat-square)](./LICENSE)
