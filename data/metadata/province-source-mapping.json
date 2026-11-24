@@ -1,0 +1,60 @@
+{
+  "$comment": "Explicit, reviewed mapping from geoBoundaries shapeName values to canonical ISO 3166-2:AF codes. Do not replace with fuzzy matching.",
+  "sourceDataset": "geoBoundaries-AFG-ADM1.geojson",
+  "corrections": [
+    {
+      "shapeName": "Badakhshan",
+      "sourceCode": "AF-BDN",
+      "canonicalCode": "AF-BDS",
+      "reason": "ISO 3166-2:AF assigns AF-BDS to Badakhshan; AF-BDN is not a valid ISO 3166-2 code."
+    },
+    {
+      "shapeName": "Kandahar",
+      "sourceCode": "AF_KAN",
+      "canonicalCode": "AF-KAN",
+      "reason": "The source uses an underscore, while ISO 3166-2 uses AF-KAN."
+    },
+    {
+      "shapeName": "Ghanzi",
+      "sourceCode": "AF-GHA",
+      "canonicalCode": "AF-GHA",
+      "reason": "ISO code is correct; the source shapeName misspells Ghazni. The public English name is corrected in the registry."
+    }
+  ],
+  "mapping": {
+    "Badakhshan": "AF-BDS",
+    "Badghis": "AF-BDG",
+    "Baghlan": "AF-BGL",
+    "Balkh": "AF-BAL",
+    "Bamyan": "AF-BAM",
+    "Daykundi": "AF-DAY",
+    "Farah": "AF-FRA",
+    "Faryab": "AF-FYB",
+    "Ghanzi": "AF-GHA",
+    "Ghor": "AF-GHO",
+    "Helmand": "AF-HEL",
+    "Herat": "AF-HER",
+    "Jowzjan": "AF-JOW",
+    "Kabul": "AF-KAB",
+    "Kandahar": "AF-KAN",
+    "Kapisa": "AF-KAP",
+    "Khost": "AF-KHO",
+    "Kunar": "AF-KNR",
+    "Kunduz": "AF-KDZ",
+    "Laghman": "AF-LAG",
+    "Logar": "AF-LOG",
+    "Nangarhar": "AF-NAN",
+    "Nimruz": "AF-NIM",
+    "Nuristan": "AF-NUR",
+    "Paktia": "AF-PIA",
+    "Paktika": "AF-PKA",
+    "Panjshir": "AF-PAN",
+    "Parwan": "AF-PAR",
+    "Samangan": "AF-SAM",
+    "Sar-e Pol": "AF-SAR",
+    "Takhar": "AF-TAK",
+    "Uruzgan": "AF-URU",
+    "Wardak": "AF-WAR",
+    "Zabul": "AF-ZAB"
+  }
+}

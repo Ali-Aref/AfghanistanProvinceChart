@@ -1,0 +1,85 @@
+{
+  "name": "@afghan-charts/react",
+  "version": "0.1.0-beta.0",
+  "description": "Accessible, responsive SVG maps and choropleths for the 34 provinces of Afghanistan. No API keys, no runtime network requests.",
+  "license": "MIT",
+  "author": "Afghanistan Province Charts contributors",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afghan-charts/afghanistan-province-charts.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://github.com/afghan-charts/afghanistan-province-charts#readme",
+  "bugs": {
+    "url": "https://github.com/afghan-charts/afghanistan-province-charts/issues"
+  },
+  "keywords": [
+    "afghanistan",
+    "afghan",
+    "map",
+    "svg",
+    "react",
+    "choropleth",
+    "provinces",
+    "data-visualization",
+    "dari",
+    "pashto"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "DATA_LICENSE.md"
+  ],
+  "scripts": {
+    "build": "vite build && tsc -p tsconfig.build.json && node ../../scripts/fix-declarations.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint src tests",
+    "package:check": "publint && attw --pack . --profile esm-only --entrypoints .",
+    "prepack": "pnpm build"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/jest-dom": "8.0.0",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.13",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.3.0",
+    "jsdom": "31.0.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "vite": "8.3.8",
+    "vitest": "5.1.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "tag": "beta"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  }
+}

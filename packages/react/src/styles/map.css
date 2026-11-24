@@ -1,0 +1,313 @@
+/* Afghanistan Province Charts — scoped map styles.
+   Import once: import "@afghan-charts/react/styles.css";
+   Override tokens on .af-map or pass the `colors` prop. */
+
+.af-map {
+  --af-map-fill: #e8edf2;
+  --af-map-hover-fill: #cfe0ee;
+  --af-map-selected-fill: #0f766e;
+  --af-map-no-data: #eef1f5;
+  --af-map-disabled-fill: #f3f4f6;
+  --af-map-border: #ffffff;
+  --af-map-border-width: 1px;
+  --af-map-outline: #7c8ba1;
+  --af-map-focus: #0f766e;
+  --af-map-label: #24313d;
+  --af-map-label-halo: #f8fafc;
+  --af-map-tooltip-bg: #0f172a;
+  --af-map-tooltip-text: #f8fafc;
+  --af-map-tooltip-border: rgba(148, 163, 184, 0.35);
+  --af-map-transition: 140ms ease;
+  --af-map-font:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans",
+    "Noto Naskh Arabic", "Vazirmatn", sans-serif;
+
+  position: relative;
+  display: block;
+  max-width: 100%;
+  font-family: var(--af-map-font);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.af-map__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  overflow: visible;
+  touch-action: manipulation;
+}
+
+.af-map__province {
+  stroke: var(--af-map-border);
+  stroke-width: var(--af-map-border-width);
+  stroke-linejoin: round;
+  cursor: pointer;
+  transition:
+    fill var(--af-map-transition),
+    filter var(--af-map-transition),
+    opacity var(--af-map-transition);
+}
+
+.af-map__province:hover {
+  filter: brightness(1.025);
+}
+
+.af-map__province--choropleth:hover,
+.af-map__province--choropleth.is-hovered {
+  filter: brightness(1.07) saturate(1.05);
+}
+
+.af-map__province.is-selected {
+  stroke: var(--af-map-focus);
+  stroke-width: 2.25px;
+  paint-order: stroke;
+}
+
+.af-map__province:focus {
+  outline: none;
+}
+
+.af-map__province:focus-visible {
+  stroke: var(--af-map-focus);
+  stroke-width: 3px;
+  paint-order: stroke;
+}
+
+.af-map__province.is-disabled {
+  cursor: default;
+  opacity: 0.9;
+}
+
+.af-map__province.is-disabled:hover {
+  filter: none;
+}
+
+.af-map__outline {
+  fill: none;
+  stroke: var(--af-map-outline);
+  stroke-width: calc(var(--af-map-border-width) * 1.4);
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.af-map__labels {
+  pointer-events: none;
+  user-select: none;
+}
+
+.af-map__label {
+  font-family: var(--af-map-font);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  fill: var(--af-map-label);
+  paint-order: stroke;
+  stroke: var(--af-map-label-halo);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+}
+
+.af-map__label--small {
+  font-size: 14px;
+  stroke-width: 3px;
+}
+
+.af-map__tooltip {
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 96px;
+  max-width: 260px;
+  padding: 8px 11px;
+  border: 1px solid var(--af-map-tooltip-border);
+  border-radius: 8px;
+  background: var(--af-map-tooltip-bg);
+  color: var(--af-map-tooltip-text);
+  box-shadow:
+    0 10px 28px rgba(15, 23, 42, 0.18),
+    0 2px 6px rgba(15, 23, 42, 0.12);
+  font-family: var(--af-map-font);
+  font-size: 12.5px;
+  line-height: 1.35;
+  text-align: start;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 10px));
+  transition:
+    opacity 100ms ease,
+    transform 100ms ease;
+}
+
+.af-map__tooltip[data-placement="below"] {
+  transform: translate(-50%, 14px);
+}
+
+.af-map__tooltip[data-align="start"] {
+  transform: translate(0, calc(-100% - 10px));
+}
+
+.af-map__tooltip[data-align="end"] {
+  transform: translate(-100%, calc(-100% - 10px));
+}
+
+.af-map__tooltip[data-placement="below"][data-align="start"] {
+  transform: translate(0, 14px);
+}
+
+.af-map__tooltip[data-placement="below"][data-align="end"] {
+  transform: translate(-100%, 14px);
+}
+
+.af-map__tooltip-name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.af-map__tooltip-value {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.9;
+}
+
+.af-map__tooltip-empty {
+  font-style: italic;
+  opacity: 0.75;
+}
+
+.af-map__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+.af-choropleth {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.af-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 2px;
+  color: var(--af-map-label);
+  font-family: var(--af-map-font);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.af-legend__title {
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.af-legend__scale {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.af-legend__gradient {
+  flex: 1 1 auto;
+  min-width: 80px;
+  height: 10px;
+  border: 1px solid var(--af-map-border);
+  border-radius: 999px;
+}
+
+.af-legend__endpoint {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.af-legend__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+.af-legend__missing {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.85;
+}
+
+.af-legend__swatch {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--af-map-border);
+  border-radius: 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .af-map {
+    --af-map-fill: #243244;
+    --af-map-hover-fill: #33475d;
+    --af-map-selected-fill: #2dd4bf;
+    --af-map-no-data: #1c2733;
+    --af-map-disabled-fill: #1a2330;
+    --af-map-border: #0b1220;
+    --af-map-outline: #7dd3c8;
+    --af-map-focus: #5eead4;
+    --af-map-label: #f1f5f9;
+    --af-map-label-halo: #0b1220;
+    --af-map-tooltip-bg: #f8fafc;
+    --af-map-tooltip-text: #0f172a;
+    --af-map-tooltip-border: rgba(15, 23, 42, 0.12);
+  }
+}
+
+@media (max-width: 520px) {
+  .af-map__label {
+    font-size: 16px;
+  }
+
+  .af-map__label--small {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .af-map,
+  .af-map *,
+  .af-legend,
+  .af-legend * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .af-map__province {
+    stroke: ButtonText;
+  }
+
+  .af-map__province.is-selected,
+  .af-map__province:focus-visible {
+    stroke: Highlight;
+  }
+
+  .af-map__outline {
+    stroke: CanvasText;
+  }
+}

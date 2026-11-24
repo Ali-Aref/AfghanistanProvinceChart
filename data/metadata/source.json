@@ -1,0 +1,30 @@
+{
+  "dataset": "geoBoundaries gbOpen Afghanistan ADM1",
+  "boundaryId": "AFG-ADM1-12653393",
+  "boundaryYear": "2007",
+  "boundaryType": "ADM1",
+  "boundaryCanonical": "Wilayat (province)",
+  "admUnitCount": 34,
+  "source": "Wikimedia / geoBoundaries",
+  "sourceUrl": "https://www.geoboundaries.org/api/current/gbOpen/AFG/ADM1/",
+  "downloadUrl": "https://github.com/wmgeolab/geoBoundaries/tree/main/releaseData/gbOpen/AFG/ADM1",
+  "resolvedDownloadUrl": "https://media.githubusercontent.com/media/wmgeolab/geoBoundaries/main/releaseData/gbOpen/AFG/ADM1/geoBoundaries-AFG-ADM1.geojson",
+  "boundarySourceUrl": "https://en.wikipedia.org/wiki/Provinces_of_Afghanistan",
+  "license": "Public Domain (boundary data)",
+  "licenseDetail": "geoBoundaries metadata lists the AFG ADM1 boundary as Public Domain. geoBoundaries project code and derivative works are released under CC BY 4.0; attribution to geoBoundaries is required.",
+  "attribution": [
+    "geoBoundaries (https://www.geoboundaries.org)",
+    "Runfola D, Anderson A, Baier H, Crittenden M, Dowker E, Fuhrig S, et al. (2020) geoBoundaries: A global database of political administrative boundaries. PLoS ONE 15(4): e0231866. https://doi.org/10.1371/journal.pone.0231866"
+  ],
+  "retrievedAt": "2026-11-23",
+  "sourceFile": "geoBoundaries-AFG-ADM1.geojson",
+  "sourceSha256": "9c044ab9a0852fba5c89a1b922f5ed244969439f9a2673b9f6763c255e7a46fe",
+  "metadataFile": "geoBoundaries-AFG-ADM1-metaData.json",
+  "citationFile": "CITATION-AND-USE-geoBoundaries.txt",
+  "notes": [
+    "The geometry represents a 2007 boundary year and is a generalised cartographic dataset. It is not a legal or survey-grade boundary source.",
+    "The source uses non-canonical shapeISO values for Badakhshan (AF-BDN) and Kandahar (AF_KAN); both are normalised to ISO 3166-2 codes.",
+    "The source shapeName 'Ghanzi' is normalised to the English name 'Ghazni'.",
+    "No runtime downloads occur. Geometry is projected and simplified once during development and committed with the package."
+  ]
+}
