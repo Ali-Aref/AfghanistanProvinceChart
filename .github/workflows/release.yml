@@ -1,0 +1,86 @@
+name: Release
+
+# Manual, approval-gated publication.
+#
+# Before enabling:
+#   1. Create an `npm-production` GitHub environment and require reviewers.
+#   2. Configure npm Trusted Publishing for this repository + workflow in the
+#      npm package settings ("Trusted Publisher" -> GitHub Actions).
+#   3. Confirm access to publish `afghanistan-province-chart` on npm.
+#   4. Update the version in packages/react/package.json and CHANGELOG.md.
+#
+# The workflow never runs on push. It uses OIDC, not a long-lived npm token.
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: Type "publish" to confirm the release
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: release-npm
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish afghanistan-province-chart
+    runs-on: ubuntu-latest
+    environment: npm-production
+    steps:
+      - name: Confirm intent
+        if: ${{ inputs.confirm != 'publish' }}
+        run: |
+          echo "Release not confirmed. Type 'publish' in the workflow input."
+          exit 1
+
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.17.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Format check
+        run: pnpm format:check
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Tests
+        run: pnpm test
+
+      - name: Validate geography
+        run: pnpm data:validate
+
+      - name: Build
+        run: pnpm build
+
+      - name: Verify package metadata
+        run: pnpm package:check
+
+      - name: Pack and inspect
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/.artifacts"
+          pnpm --filter afghanistan-province-chart pack --pack-destination "$GITHUB_WORKSPACE/.artifacts"
+          tar -tzf "$GITHUB_WORKSPACE"/.artifacts/*.tgz
+
+      - name: Publish with provenance (Trusted Publishing / OIDC)
+        working-directory: packages/react
+        run: npm publish --provenance --access public --tag latest

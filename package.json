@@ -1,6 +1,6 @@
 {
   "name": "afghanistan-province-charts",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Monorepo for afghanistan-province-chart, an accessible React map and choropleth library for Afghanistan's 34 provinces.",
