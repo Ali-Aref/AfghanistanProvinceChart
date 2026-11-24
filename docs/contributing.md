@@ -111,14 +111,11 @@ PLAYWRIGHT_CHANNEL=chrome pnpm test:e2e
 
 ## Release process
 
-Releases are manual and approval-gated. See the release workflow in
-`.github/workflows/release.yml`. The maintainer must:
+The maintainer handles releases. Before publishing:
 
-1. review the public API, geometry and documentation;
-2. confirm npm scope ownership;
-3. configure npm Trusted Publishing for the GitHub environment;
-4. update the version and changelog;
-5. approve the `npm-production` environment;
-6. publish with provenance.
+1. Confirm access to the `@afghan-province-charts` npm scope.
+2. Update the version and changelog.
+3. Run the checks above, pack the package and inspect its contents.
+4. Publish using an authorized npm account.
 
-`0.1.0-beta.0` remains unpublished until that approval.
+`0.1.0-beta.0` has not been published to npm yet.

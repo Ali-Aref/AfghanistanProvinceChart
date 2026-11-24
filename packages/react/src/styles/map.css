@@ -1,5 +1,5 @@
 /* Afghanistan Province Charts — scoped map styles.
-   Import once: import "@afghan-charts/react/styles.css";
+   Import once: import "@afghan-province-charts/react/styles.css";
    Override tokens on .af-map or pass the `colors` prop. */
 
 .af-map {

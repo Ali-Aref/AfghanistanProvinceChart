@@ -4,7 +4,7 @@ import {
   AfghanistanMap,
   getProvinceByCode,
   type Locale,
-} from "@afghan-charts/react";
+} from "@afghan-province-charts/react";
 import { ApiReference } from "./components/ApiReference.js";
 import { CodeBlock } from "./components/CodeBlock.js";
 import { DemoPlayground } from "./components/DemoPlayground.js";
@@ -12,10 +12,10 @@ import { SAMPLE_DATA, SAMPLE_METRIC_LABEL, SAMPLE_TOP_VALUES } from "./examples/
 
 type Theme = "light" | "dark";
 
-const INSTALL_COMMAND = "pnpm add @afghan-charts/react";
+const INSTALL_COMMAND = "pnpm add @afghan-province-charts/react";
 
-const QUICK_START = `import { AfghanistanMap } from "@afghan-charts/react";
-import "@afghan-charts/react/styles.css";
+const QUICK_START = `import { AfghanistanMap } from "@afghan-province-charts/react";
+import "@afghan-province-charts/react/styles.css";
 
 export default function Dashboard() {
   return (
@@ -35,8 +35,8 @@ import { useState } from "react";
 import {
   AfghanistanChoropleth,
   type ProvinceCode,
-} from "@afghan-charts/react";
-import "@afghan-charts/react/styles.css";
+} from "@afghan-province-charts/react";
+import "@afghan-province-charts/react/styles.css";
 
 export function ProvinceReport({ data }: { data: Record<string, number> }) {
   const [selected, setSelected] = useState<ProvinceCode | null>(null);
@@ -454,7 +454,7 @@ export default function App() {
             </span>
             <span>
               <strong>Afghanistan Province Charts</strong>
-              <small>@afghan-charts/react</small>
+              <small>@afghan-province-charts/react</small>
             </span>
           </a>
           <p>

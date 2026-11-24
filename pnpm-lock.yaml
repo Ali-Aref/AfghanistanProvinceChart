@@ -232,7 +232,7 @@ importers:
 
   apps/playground:
     dependencies:
-      '@afghan-charts/react':
+      '@afghan-province-charts/react':
         specifier: workspace:*
         version: link:../../packages/react
       react:

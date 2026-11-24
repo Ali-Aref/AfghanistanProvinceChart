@@ -1,17 +1,17 @@
 {
-  "name": "@afghan-charts/react",
+  "name": "@afghan-province-charts/react",
   "version": "0.1.0-beta.0",
   "description": "Accessible, responsive SVG maps and choropleths for the 34 provinces of Afghanistan. No API keys, no runtime network requests.",
   "license": "MIT",
   "author": "Afghanistan Province Charts contributors",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/afghan-charts/afghanistan-province-charts.git",
+    "url": "git+https://github.com/Ali-Aref/AfghanistanProvinceChart.git",
     "directory": "packages/react"
   },
-  "homepage": "https://github.com/afghan-charts/afghanistan-province-charts#readme",
+  "homepage": "https://github.com/Ali-Aref/AfghanistanProvinceChart#readme",
   "bugs": {
-    "url": "https://github.com/afghan-charts/afghanistan-province-charts/issues"
+    "url": "https://github.com/Ali-Aref/AfghanistanProvinceChart/issues"
   },
   "keywords": [
     "afghanistan",
@@ -76,7 +76,6 @@
   },
   "publishConfig": {
     "access": "public",
-    "provenance": true,
     "tag": "beta"
   },
   "engines": {

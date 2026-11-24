@@ -3,7 +3,7 @@
   "version": "0.1.0-beta.0",
   "private": true,
   "type": "module",
-  "description": "Monorepo for @afghan-charts/react, an accessible React map and choropleth library for Afghanistan's 34 provinces.",
+  "description": "Monorepo for @afghan-province-charts/react, an accessible React map and choropleth library for Afghanistan's 34 provinces.",
   "license": "MIT",
   "packageManager": "pnpm@12.17.0",
   "engines": {
@@ -11,9 +11,9 @@
     "pnpm": ">=10"
   },
   "scripts": {
-    "dev": "pnpm --filter @afghan-charts/react build && pnpm --filter @afghan-charts/playground dev",
-    "build": "pnpm --filter @afghan-charts/react build && pnpm --filter @afghan-charts/playground build",
-    "build:lib": "pnpm --filter @afghan-charts/react build",
+    "dev": "pnpm --filter @afghan-province-charts/react build && pnpm --filter @afghan-province-charts/playground dev",
+    "build": "pnpm --filter @afghan-province-charts/react build && pnpm --filter @afghan-province-charts/playground build",
+    "build:lib": "pnpm --filter @afghan-province-charts/react build",
     "test": "pnpm -r --if-present test",
     "test:e2e": "playwright test",
     "lint": "eslint .",
@@ -22,7 +22,7 @@
     "format:check": "prettier --check .",
     "data:geometry": "tsx scripts/generate-geometry.ts",
     "data:validate": "tsx scripts/validate-geography.ts",
-    "package:check": "pnpm --filter @afghan-charts/react package:check",
+    "package:check": "pnpm --filter @afghan-province-charts/react package:check",
     "verify:package": "node scripts/verify-package.mjs"
   },
   "devDependencies": {

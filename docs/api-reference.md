@@ -15,13 +15,13 @@ import {
   SUPPORTED_LOCALES,
   DEFAULT_LOCALE,
   INTL_LOCALES,
-} from "@afghan-charts/react";
+} from "@afghan-province-charts/react";
 ```
 
 Import styles once:
 
 ```ts
-import "@afghan-charts/react/styles.css";
+import "@afghan-province-charts/react/styles.css";
 ```
 
 ## Core types

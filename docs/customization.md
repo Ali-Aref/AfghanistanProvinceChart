@@ -3,7 +3,7 @@
 The library ships one scoped stylesheet. Import it once:
 
 ```ts
-import "@afghan-charts/react/styles.css";
+import "@afghan-province-charts/react/styles.css";
 ```
 
 All classes use an `af-` prefix. The library does not use Tailwind, CSS-in-JS,

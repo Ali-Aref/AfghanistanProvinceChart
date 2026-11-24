@@ -1,4 +1,4 @@
-import type { ProvinceNumericData } from "@afghan-charts/react";
+import type { ProvinceNumericData } from "@afghan-province-charts/react";
 
 /**
  * Illustrative values only. These numbers were invented for the demo and must

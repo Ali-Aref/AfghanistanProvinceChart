@@ -13,8 +13,8 @@ that **passes callbacks or controls selection** must be a Client Component.
 "use client";
 
 import { useState } from "react";
-import { AfghanistanMap, type ProvinceCode } from "@afghan-charts/react";
-import "@afghan-charts/react/styles.css";
+import { AfghanistanMap, type ProvinceCode } from "@afghan-province-charts/react";
+import "@afghan-province-charts/react/styles.css";
 
 export function ProvincePanel() {
   const [selected, setSelected] = useState<ProvinceCode | null>(null);
@@ -52,14 +52,14 @@ you do not pass functions and set `interactive={false}`. In practice, adding
 Import the stylesheet from the Client Component or from the root layout:
 
 ```tsx
-import "@afghan-charts/react/styles.css";
+import "@afghan-province-charts/react/styles.css";
 ```
 
 Next.js supports global CSS imports from the App Router root layout. The package
 exports the file explicitly:
 
 ```ts
-import "@afghan-charts/react/styles.css";
+import "@afghan-province-charts/react/styles.css";
 ```
 
 ## Dynamic data
@@ -81,8 +81,8 @@ export default async function Page() {
 // app/report/report-map.tsx
 "use client";
 
-import { AfghanistanChoropleth } from "@afghan-charts/react";
-import type { ProvinceNumericData } from "@afghan-charts/react";
+import { AfghanistanChoropleth } from "@afghan-province-charts/react";
+import type { ProvinceNumericData } from "@afghan-province-charts/react";
 
 export function ReportMap({ data }: { data: ProvinceNumericData }) {
   return <AfghanistanChoropleth data={data} showLegend showTooltip />;
@@ -116,19 +116,19 @@ bundle until below the fold:
 
 ```tsx
 const AfghanistanMap = dynamic(
-  () => import("@afghan-charts/react").then((module) => module.AfghanistanMap),
+  () => import("@afghan-province-charts/react").then((module) => module.AfghanistanMap),
   { ssr: true },
 );
 ```
 
-If you do this, import `@afghan-charts/react/styles.css` once in a layout or the
+If you do this, import `@afghan-province-charts/react/styles.css` once in a layout or the
 component that uses the map.
 
 ## Troubleshooting
 
 - **"useState only works in Client Components"** — add `"use client"` to the file
   that renders the map with callbacks.
-- **Unstyled map** — import `@afghan-charts/react/styles.css`.
+- **Unstyled map** — import `@afghan-province-charts/react/styles.css`.
 - **Map has unexpected height** — set a `height` or give the parent a width.
 - **Tooltip appears clipped** — remove `overflow: hidden` from the immediate card
   or place the map in a container that allows overflow.

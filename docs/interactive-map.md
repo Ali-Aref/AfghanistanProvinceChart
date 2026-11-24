@@ -4,8 +4,8 @@
 pointer, touch and keyboard input, and manages selection.
 
 ```tsx
-import { AfghanistanMap } from "@afghan-charts/react";
-import "@afghan-charts/react/styles.css";
+import { AfghanistanMap } from "@afghan-province-charts/react";
+import "@afghan-province-charts/react/styles.css";
 
 export default function App() {
   return <AfghanistanMap locale="en" height={500} showTooltip />;
@@ -89,7 +89,7 @@ import type {
   ProvinceCode,
   ProvinceInteraction,
   ProvinceTooltipContext,
-} from "@afghan-charts/react";
+} from "@afghan-province-charts/react";
 ```
 
 See [api-reference.md](./api-reference.md) for the full prop table.

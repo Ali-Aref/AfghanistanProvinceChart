@@ -14,7 +14,8 @@ export default defineConfig({
     ...(channel ? { channel } : {}),
   },
   webServer: {
-    command: "pnpm --filter @afghan-charts/playground preview --host 127.0.0.1 --port 4173",
+    command:
+      "pnpm --filter @afghan-province-charts/playground preview --host 127.0.0.1 --port 4173",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

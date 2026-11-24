@@ -87,7 +87,7 @@ palette must use `#rgb` or `#rrggbb` syntax.
 A standalone continuous legend using the same tokens as the map.
 
 ```tsx
-import { MapLegend } from "@afghan-charts/react";
+import { MapLegend } from "@afghan-province-charts/react";
 
 <MapLegend
   domain={[0, 100]}
@@ -114,7 +114,7 @@ import {
   SUPPORTED_LOCALES,
   DEFAULT_LOCALE,
   INTL_LOCALES,
-} from "@afghan-charts/react";
+} from "@afghan-province-charts/react";
 ```
 
 - `getProvinces()` returns a frozen array of all 34 provinces.

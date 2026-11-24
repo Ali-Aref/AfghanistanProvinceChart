@@ -4,8 +4,12 @@
 
 ```tsx
 import { useState } from "react";
-import { AfghanistanMap, getProvinceByCode, type ProvinceCode } from "@afghan-charts/react";
-import "@afghan-charts/react/styles.css";
+import {
+  AfghanistanMap,
+  getProvinceByCode,
+  type ProvinceCode,
+} from "@afghan-province-charts/react";
+import "@afghan-province-charts/react/styles.css";
 
 export function ProvinceCard() {
   const [selected, setSelected] = useState<ProvinceCode | null>("AF-KAB");
@@ -37,7 +41,7 @@ export function ProvinceCard() {
 A fixed domain keeps colors stable as data refreshes.
 
 ```tsx
-import { AfghanistanChoropleth } from "@afghan-charts/react";
+import { AfghanistanChoropleth } from "@afghan-province-charts/react";
 
 const data = {
   "AF-KAB": 82.4,
@@ -77,7 +81,10 @@ Do not fill gaps with zero unless zero is the real value.
 ## Custom tooltip
 
 ```tsx
-import { AfghanistanChoropleth, type ProvinceTooltipContext } from "@afghan-charts/react";
+import {
+  AfghanistanChoropleth,
+  type ProvinceTooltipContext,
+} from "@afghan-province-charts/react";
 
 function Tooltip({ province, formattedValue }: ProvinceTooltipContext) {
   return (
@@ -106,7 +113,7 @@ Custom tooltips return React nodes. Never inject unsanitized HTML.
 
 ```tsx
 import { useState } from "react";
-import { AfghanistanMap, type Locale } from "@afghan-charts/react";
+import { AfghanistanMap, type Locale } from "@afghan-province-charts/react";
 
 const locales: Locale[] = ["en", "prs", "ps"];
 
@@ -162,7 +169,7 @@ Maps are independent and keep separate uncontrolled state.
 ## Legend without a map
 
 ```tsx
-import { MapLegend } from "@afghan-charts/react";
+import { MapLegend } from "@afghan-province-charts/react";
 
 <MapLegend
   domain={[0, 100]}

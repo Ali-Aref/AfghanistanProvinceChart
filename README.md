@@ -8,11 +8,10 @@
 
 ![The Afghanistan Province Charts playground](./docs/assets/playground-hero-light.png)
 
-> **Status:** `0.1.0-beta.0` is implementation-complete and release-ready, but it
-> has **not** been published to npm yet. It is awaiting human API review. See
-> [Release readiness](#release-readiness).
+> **Status:** `0.1.0-beta.0` has not been published to npm yet. The public API
+> and visual design have been reviewed. See [Release readiness](#release-readiness).
 
-`@afghan-charts/react` renders the country as a responsive SVG. No API keys, map
+`@afghan-province-charts/react` renders the country as a responsive SVG. No API keys, map
 tiles, CDNs, external services or runtime network requests are involved. The
 package ships pre-projected geometry, a typed province registry, a data-driven
 choropleth and a two-stop color legend.
@@ -42,12 +41,12 @@ choropleth and a two-stop color legend.
 ## Quick start
 
 ```bash
-pnpm add @afghan-charts/react
+pnpm add @afghan-province-charts/react
 ```
 
 ```tsx
-import { AfghanistanMap } from "@afghan-charts/react";
-import "@afghan-charts/react/styles.css";
+import { AfghanistanMap } from "@afghan-province-charts/react";
+import "@afghan-province-charts/react/styles.css";
 
 export default function Dashboard() {
   return (
@@ -68,8 +67,8 @@ grids, side panels and full-page layouts.
 ## Choropleth
 
 ```tsx
-import { AfghanistanChoropleth } from "@afghan-charts/react";
-import "@afghan-charts/react/styles.css";
+import { AfghanistanChoropleth } from "@afghan-province-charts/react";
+import "@afghan-province-charts/react/styles.css";
 
 const reach = {
   "AF-KAB": 96,
@@ -96,7 +95,7 @@ export function Report() {
 
 ```tsx
 import { useState } from "react";
-import { AfghanistanMap, type ProvinceCode } from "@afghan-charts/react";
+import { AfghanistanMap, type ProvinceCode } from "@afghan-province-charts/react";
 
 export function ProvincePicker() {
   const [selected, setSelected] = useState<ProvinceCode | null>(null);
@@ -205,7 +204,7 @@ pnpm dev
 
 ```bash
 pnpm build
-pnpm --filter @afghan-charts/playground preview
+pnpm --filter @afghan-province-charts/playground preview
 ```
 
 Screenshots in this README are captured from that running playground by the
@@ -248,7 +247,7 @@ diff before committing. Never edit that file by hand.
 
 ## Release readiness
 
-The repository is intentionally **not published**. Before `npm publish`:
+The npm package has not been published yet. Before `npm publish`:
 
 - [x] 34 provinces render with canonical ISO identifiers.
 - [x] Pointer, touch and keyboard interaction tests pass.
@@ -257,18 +256,16 @@ The repository is intentionally **not published**. Before `npm publish`:
 - [x] Unit, component, SSR, hydration, accessibility and Playwright tests pass.
 - [x] Geographic provenance and checksums validated.
 - [x] Package exports, declarations and packed tarball inspected.
-- [ ] Human review of the public API and visual design.
-- [ ] Confirm npm scope ownership for `@afghan-charts`.
-- [ ] Replace the provisional repository URL if the final owner differs.
-- [ ] Configure npm Trusted Publishing and the `npm-production` GitHub
-      environment.
-- [ ] Grant explicit approval to publish `0.1.0-beta.0`.
+- [x] Public API and visual design reviewed by the maintainer.
+- [x] Package repository URL points to this GitHub repository.
+- [ ] Confirm npm scope ownership for `@afghan-province-charts`.
+- [ ] Publish `0.1.0-beta.0` when the maintainer is ready.
 
 ## Contributing
 
-Issues and pull requests are welcome once the repository is published. Please
-read [docs/contributing.md](./docs/contributing.md) first. Province name
-corrections with a reliable source are especially valuable.
+Issues and pull requests are welcome. Please read
+[docs/contributing.md](./docs/contributing.md) first. Province name corrections
+with a reliable source are especially valuable.
 
 ## License
 

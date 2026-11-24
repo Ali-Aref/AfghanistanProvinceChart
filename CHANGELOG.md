@@ -8,7 +8,7 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
-- Full pnpm monorepo with `@afghan-charts/react` and a Vite playground.
+- Full pnpm monorepo with `@afghan-province-charts/react` and a Vite playground.
 - Build-time geometry pipeline from preserved geoBoundaries AFG ADM1 data.
 - Reviewed mapping of all 34 source shapes to ISO 3166-2:AF codes, including
   corrections for Badakhshan and Kandahar.
@@ -23,13 +23,11 @@ All notable changes to this project are documented here. The format follows
   values, fixed domains, custom formatters and a continuous legend.
 - SSR and hydration coverage.
 - Vitest + React Testing Library suite, Playwright interaction/visual suite.
-- GitHub Actions CI and a manual, approval-gated release workflow.
 - Package validation with publint, Are The Types Wrong and an isolated tarball
   installer for React 18 and React 19.
 
 ### Notes
 
-- `0.1.0-beta.0` is not published to npm. Publication requires explicit
-  maintainer approval.
+- `0.1.0-beta.0` is not published to npm yet.
 - Boundary data is from 2007 and is a generalised cartographic source, not a
   legal or survey-grade boundary.
