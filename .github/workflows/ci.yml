@@ -46,6 +46,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Build library for playground typecheck
+        run: pnpm build:lib
+
       - name: Typecheck
         run: pnpm typecheck
 
@@ -72,6 +75,7 @@ jobs:
         with:
           name: package-node-${{ matrix.node }}
           path: .artifacts/*.tgz
+          include-hidden-files: true
           if-no-files-found: error
 
   e2e:
