@@ -63,6 +63,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Build library for playground typecheck
+        run: pnpm build:lib
+
       - name: Typecheck
         run: pnpm typecheck
 
