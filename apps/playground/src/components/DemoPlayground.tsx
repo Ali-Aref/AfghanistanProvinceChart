@@ -2,13 +2,15 @@ import { useMemo, useState } from "react";
 import {
   AfghanistanChoropleth,
   AfghanistanMap,
+  INTL_LOCALES,
   getLocaleDirection,
   getProvinceByCode,
   type Locale,
   type ProvinceCode,
 } from "afghanistan-province-chart";
 import { CodeBlock } from "./CodeBlock.js";
-import { SAMPLE_DATA, SAMPLE_METRIC_LABEL } from "../examples/sampleData.js";
+import { SAMPLE_DATA } from "../examples/sampleData.js";
+import { SHOWCASE_MESSAGES } from "../i18n.js";
 
 type Theme = "light" | "dark";
 type Mode = "map" | "choropleth";
@@ -26,6 +28,8 @@ const PALETTES: Record<Theme, Palette> = {
 
 interface DemoPlaygroundProps {
   theme: Theme;
+  siteLocale: Locale;
+  metricLabel: string;
 }
 
 function buildCode(
@@ -95,8 +99,10 @@ ${common}
 }`;
 }
 
-export function DemoPlayground({ theme }: DemoPlaygroundProps) {
-  const [locale, setLocale] = useState<Locale>("en");
+export function DemoPlayground({ theme, siteLocale, metricLabel }: DemoPlaygroundProps) {
+  const [mapLocaleOverride, setMapLocaleOverride] = useState<Locale | null>(null);
+  const locale = mapLocaleOverride ?? siteLocale;
+  const t = SHOWCASE_MESSAGES[siteLocale].demo;
   const [mode, setMode] = useState<Mode>("map");
   const [selected, setSelected] = useState<ProvinceCode | null>("AF-KAB");
   const [showTooltip, setShowTooltip] = useState(true);
@@ -114,7 +120,7 @@ export function DemoPlayground({ theme }: DemoPlaygroundProps) {
   );
 
   const reset = () => {
-    setLocale("en");
+    setMapLocaleOverride(null);
     setMode("map");
     setSelected("AF-KAB");
     setShowTooltip(true);
@@ -125,74 +131,80 @@ export function DemoPlayground({ theme }: DemoPlaygroundProps) {
   return (
     <div className="pg-demo">
       <div className="pg-demo-grid">
-        <aside className="pg-controls" aria-label="Map configuration">
+        <aside className="pg-controls" aria-label={t.configuration}>
           <div className="pg-controls-head">
-            <span className="pg-eyebrow">Configuration</span>
+            <span className="pg-eyebrow">{t.configuration}</span>
             <button className="pg-text-button" type="button" onClick={reset}>
-              Reset
+              {t.reset}
             </button>
           </div>
 
           <fieldset className="pg-field">
-            <legend>Display</legend>
-            <div className="pg-segmented" role="group" aria-label="Display mode">
+            <legend>{t.display}</legend>
+            <div className="pg-segmented" role="group" aria-label={t.displayMode}>
               <button
                 type="button"
                 aria-pressed={mode === "map"}
                 onClick={() => setMode("map")}
               >
-                Map
+                {t.map}
               </button>
               <button
                 type="button"
                 aria-pressed={mode === "choropleth"}
                 onClick={() => setMode("choropleth")}
               >
-                Choropleth
+                {t.choropleth}
               </button>
             </div>
           </fieldset>
 
           <label className="pg-field">
-            <span>Language</span>
-            <select
-              value={locale}
-              onChange={(event) => setLocale(event.target.value as Locale)}
-            >
-              <option value="en">English</option>
-              <option value="prs">Dari — دری</option>
-              <option value="ps">Pashto — پښتو</option>
-            </select>
+            <span>{t.language}</span>
+            <span className="pg-select-shell">
+              <select
+                value={locale}
+                onChange={(event) => setMapLocaleOverride(event.target.value as Locale)}
+              >
+                <option value="en" lang="en">
+                  English
+                </option>
+                <option value="prs" lang="fa-AF">
+                  دری
+                </option>
+                <option value="ps" lang="ps-AF">
+                  پښتو
+                </option>
+              </select>
+            </span>
           </label>
 
           <fieldset className="pg-field">
-            <legend>Map colors</legend>
+            <legend>{t.mapColors}</legend>
             <p className="pg-field-note">
-              {mode === "choropleth"
-                ? "Choropleth fills come from the data scale. Switch to Map to edit these colors."
-                : "Selection and hover colors update live."}
+              {mode === "choropleth" ? t.choroplethColors : t.liveColors}
             </p>
             <div className="pg-color-grid">
               <label>
-                <span>Base</span>
+                <span>{t.base}</span>
                 <input
                   type="color"
                   value={palette.fill}
                   disabled={mode === "choropleth"}
-                  aria-label="Base fill color"
+                  aria-label={t.baseColor}
                   onChange={(event) =>
                     setCustomPalette({ ...palette, fill: event.target.value })
                   }
                 />
-                <code>{palette.fill}</code>
+                <code dir="ltr">{palette.fill}</code>
               </label>
               <label>
-                <span>Hover</span>
+                <span>{t.hover}</span>
                 <input
                   type="color"
                   value={palette.hoverFill}
                   disabled={mode === "choropleth"}
-                  aria-label="Hover fill color"
+                  aria-label={t.hoverColor}
                   onChange={(event) =>
                     setCustomPalette({
                       ...palette,
@@ -200,15 +212,15 @@ export function DemoPlayground({ theme }: DemoPlaygroundProps) {
                     })
                   }
                 />
-                <code>{palette.hoverFill}</code>
+                <code dir="ltr">{palette.hoverFill}</code>
               </label>
               <label>
-                <span>Selected</span>
+                <span>{t.selected}</span>
                 <input
                   type="color"
                   value={palette.selectedFill}
                   disabled={mode === "choropleth"}
-                  aria-label="Selected fill color"
+                  aria-label={t.selectedColor}
                   onChange={(event) =>
                     setCustomPalette({
                       ...palette,
@@ -216,20 +228,20 @@ export function DemoPlayground({ theme }: DemoPlaygroundProps) {
                     })
                   }
                 />
-                <code>{palette.selectedFill}</code>
+                <code dir="ltr">{palette.selectedFill}</code>
               </label>
             </div>
           </fieldset>
 
           <fieldset className="pg-field">
-            <legend>Options</legend>
+            <legend>{t.options}</legend>
             <label className="pg-switch">
               <input
                 type="checkbox"
                 checked={showTooltip}
                 onChange={(event) => setShowTooltip(event.target.checked)}
               />
-              <span>Show tooltips</span>
+              <span>{t.showTooltips}</span>
             </label>
             <label className="pg-switch">
               <input
@@ -237,7 +249,7 @@ export function DemoPlayground({ theme }: DemoPlaygroundProps) {
                 checked={showLabels}
                 onChange={(event) => setShowLabels(event.target.checked)}
               />
-              <span>Show province labels</span>
+              <span>{t.showLabels}</span>
             </label>
           </fieldset>
         </aside>
@@ -245,10 +257,12 @@ export function DemoPlayground({ theme }: DemoPlaygroundProps) {
         <div className="pg-demo-mapcard">
           <div className="pg-demo-maphead">
             <div>
-              <span className="pg-eyebrow">Live preview</span>
-              <h3>{mode === "map" ? "Interactive province map" : "Province choropleth"}</h3>
+              <span className="pg-eyebrow">{t.livePreview}</span>
+              <h3>{mode === "map" ? t.interactiveMap : t.provinceChoropleth}</h3>
             </div>
-            <span className="pg-chip">{locale.toUpperCase()}</span>
+            <span className="pg-chip" dir="ltr">
+              {locale.toUpperCase()}
+            </span>
           </div>
 
           <div className="pg-demo-mapstage">
@@ -270,7 +284,9 @@ export function DemoPlayground({ theme }: DemoPlaygroundProps) {
                 showTooltip={showTooltip}
                 showProvinceLabels={showLabels}
                 showLegend
-                legendTitle={SAMPLE_METRIC_LABEL}
+                legendTitle={
+                  mapLocaleOverride ? SHOWCASE_MESSAGES[locale].site.metric : metricLabel
+                }
               />
             )}
           </div>
@@ -279,25 +295,29 @@ export function DemoPlayground({ theme }: DemoPlaygroundProps) {
             {province ? (
               <>
                 <div>
-                  <span className="pg-eyebrow">Selected province</span>
+                  <span className="pg-eyebrow">{t.selectedProvince}</span>
                   <strong className="pg-demo-province">{province.names[locale]}</strong>
-                  <code className="pg-chip">{province.code}</code>
+                  <code className="pg-chip" dir="ltr">
+                    {province.code}
+                  </code>
                 </div>
                 <div className="pg-demo-value">
                   {mode === "choropleth" ? (
                     <>
-                      <span className="pg-eyebrow">Sample value</span>
-                      <strong>{hasValue ? rawValue : "No data"}</strong>
+                      <span className="pg-eyebrow">{t.sampleValue}</span>
+                      <strong>
+                        {hasValue
+                          ? new Intl.NumberFormat(INTL_LOCALES[locale]).format(rawValue)
+                          : SHOWCASE_MESSAGES[locale].demo.noData}
+                      </strong>
                     </>
                   ) : (
-                    <span className="pg-demo-hint">
-                      Click a province — or focus it and press Enter — to select.
-                    </span>
+                    <span className="pg-demo-hint">{t.selectHint}</span>
                   )}
                 </div>
               </>
             ) : (
-              <span className="pg-demo-hint">No province selected. Pick one on the map.</span>
+              <span className="pg-demo-hint">{t.noneSelected}</span>
             )}
           </div>
         </div>
@@ -305,10 +325,10 @@ export function DemoPlayground({ theme }: DemoPlaygroundProps) {
 
       <div className="pg-demo-code">
         <div className="pg-code-intro">
-          <span className="pg-eyebrow">Source for this preview</span>
-          <p>Every control above maps to a typed prop — no hidden wrappers.</p>
+          <span className="pg-eyebrow">{t.sourcePreview}</span>
+          <p>{t.sourceDescription}</p>
         </div>
-        <CodeBlock code={code} />
+        <CodeBlock code={code} locale={siteLocale} />
       </div>
     </div>
   );

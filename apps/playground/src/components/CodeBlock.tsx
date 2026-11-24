@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from "react";
+import type { Locale } from "afghanistan-province-chart";
+import { SHOWCASE_MESSAGES } from "../i18n.js";
 
 interface CodeBlockProps {
   code: string;
   label?: string;
   className?: string;
+  locale: Locale;
 }
 
-export function CodeBlock({ code, label = "tsx", className }: CodeBlockProps) {
+export function CodeBlock({ code, label = "tsx", className, locale }: CodeBlockProps) {
+  const t = SHOWCASE_MESSAGES[locale].code;
   const [status, setStatus] = useState<"idle" | "copied" | "failed">("idle");
   const timer = useRef<number | undefined>(undefined);
 
@@ -30,12 +34,14 @@ export function CodeBlock({ code, label = "tsx", className }: CodeBlockProps) {
   return (
     <div className={["pg-code", className].filter(Boolean).join(" ")}>
       <div className="pg-code-bar">
-        <span className="pg-code-lang">{label}</span>
+        <span className="pg-code-lang" dir="ltr">
+          {label}
+        </span>
         <button className="pg-code-copy" type="button" onClick={copy}>
-          {status === "copied" ? "Copied" : status === "failed" ? "Copy failed" : "Copy"}
+          {status === "copied" ? t.copied : status === "failed" ? t.failed : t.copy}
         </button>
       </div>
-      <pre>
+      <pre dir="ltr" lang="en">
         <code>{code}</code>
       </pre>
     </div>

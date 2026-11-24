@@ -1,5 +1,7 @@
 # Documentation
 
+Languages: **English** (this page) · [دری / Dari](./prs/README.md) · [پښتو / Pashto](./ps/README.md). The English API and legal/source documents remain the canonical references.
+
 Start here:
 
 - [Getting started](./getting-started.md) — install, first map, first choropleth.

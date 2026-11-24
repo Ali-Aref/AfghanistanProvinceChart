@@ -1,5 +1,7 @@
 # Afghanistan Province Charts
 
+**Documentation languages:** [English](./docs/README.md) · [دری / Dari](./docs/prs/README.md) · [پښتو / Pashto](./docs/ps/README.md).
+
 **Interactive, accessible React maps and choropleths for the 34 provinces of Afghanistan.**
 
 [![React](https://img.shields.io/badge/React-18%20%7C%2019-087ea4?style=flat-square)](#compatibility)

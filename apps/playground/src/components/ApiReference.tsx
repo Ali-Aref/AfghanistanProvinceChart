@@ -1,8 +1,11 @@
+import type { Locale } from "afghanistan-province-chart";
+import { SHOWCASE_MESSAGES, type ShowcaseMessages } from "../i18n.js";
+
 interface ApiRow {
   name: string;
   type: string;
   defaultValue: string;
-  description: string;
+  descriptionKey: keyof ShowcaseMessages["api"]["rows"];
 }
 
 const MAP_ROWS: ApiRow[] = [
@@ -10,73 +13,73 @@ const MAP_ROWS: ApiRow[] = [
     name: "locale",
     type: '"en" | "prs" | "ps"',
     defaultValue: '"en"',
-    description: "Province names, UI copy and text direction.",
+    descriptionKey: "locale",
   },
   {
     name: "width / height",
     type: "number | string",
     defaultValue: '"100%" / auto',
-    description: "Container dimensions. The SVG keeps its aspect ratio.",
+    descriptionKey: "dimensions",
   },
   {
     name: "selectedProvince",
     type: "ProvinceCode | null",
     defaultValue: "undefined",
-    description: "Controlled selection. Passing null clears the selection.",
+    descriptionKey: "selectedProvince",
   },
   {
     name: "defaultSelectedProvince",
     type: "ProvinceCode | null",
     defaultValue: "null",
-    description: "Initial selection for uncontrolled usage.",
+    descriptionKey: "defaultSelectedProvince",
   },
   {
     name: "onProvinceClick",
     type: "(interaction: ProvinceInteraction) => void",
     defaultValue: "—",
-    description: "Canonical province metadata plus the originating event.",
+    descriptionKey: "onProvinceClick",
   },
   {
     name: "onSelectionChange",
     type: "(code: ProvinceCode | null) => void",
     defaultValue: "—",
-    description: "Fires on select and deselect, including keyboard activation.",
+    descriptionKey: "onSelectionChange",
   },
   {
     name: "showTooltip",
     type: "boolean",
     defaultValue: "true",
-    description: "Built-in tooltip on hover and keyboard focus.",
+    descriptionKey: "showTooltip",
   },
   {
     name: "showProvinceLabels",
     type: "boolean",
     defaultValue: "false",
-    description: "Localized province names drawn inside the map.",
+    descriptionKey: "showProvinceLabels",
   },
   {
     name: "colors",
     type: "Partial<MapColors>",
     defaultValue: "theme defaults",
-    description: "Maps to scoped CSS variables for full theme control.",
+    descriptionKey: "colors",
   },
   {
     name: "renderTooltip",
     type: "(context: ProvinceTooltipContext) => ReactNode",
     defaultValue: "—",
-    description: "Replace tooltip content with React nodes. Never HTML strings.",
+    descriptionKey: "renderTooltip",
   },
   {
     name: "interactive",
     type: "boolean",
     defaultValue: "true",
-    description: "Render a muted, non-focusable map when false.",
+    descriptionKey: "interactive",
   },
   {
     name: "ariaLabel",
     type: "string",
     defaultValue: "localized",
-    description: "Accessible name applied to the SVG group.",
+    descriptionKey: "ariaLabel",
   },
 ];
 
@@ -85,71 +88,89 @@ const CHOROPLETH_ROWS: ApiRow[] = [
     name: "data",
     type: "ProvinceNumericData",
     defaultValue: "required",
-    description: "Values keyed by ISO code. Missing keys are not zero.",
+    descriptionKey: "data",
   },
   {
     name: "domain",
     type: "readonly [number, number]",
     defaultValue: "auto min/max",
-    description: "Fixed numeric domain for a stable scale across renders.",
+    descriptionKey: "domain",
   },
   {
     name: "palette",
     type: "readonly [string, string]",
     defaultValue: "teal scale",
-    description: "Two-stop continuous palette using CSS hex colors.",
+    descriptionKey: "palette",
   },
   {
     name: "missingColor",
     type: "string",
     defaultValue: "scoped token",
-    description: "Fill for missing, null, NaN or out-of-province data.",
+    descriptionKey: "missingColor",
   },
   {
     name: "formatValue",
     type: "(value: number) => string",
     defaultValue: "Intl.NumberFormat",
-    description: "Custom metric formatting for tooltip and legend.",
+    descriptionKey: "formatValue",
   },
   {
     name: "showLegend",
     type: "boolean",
     defaultValue: "false",
-    description: "Continuous legend with min, max and missing-data swatch.",
+    descriptionKey: "showLegend",
   },
   {
     name: "legendTitle",
     type: "string",
     defaultValue: "localized",
-    description: "Legend heading, useful for naming the metric.",
+    descriptionKey: "legendTitle",
   },
 ];
 
-function ApiTable({ rows }: { rows: ApiRow[] }) {
+function ApiTable({ rows, locale }: { rows: ApiRow[]; locale: Locale }) {
+  const t = SHOWCASE_MESSAGES[locale].api;
+  const defaultLabels: Record<string, string> = {
+    "theme defaults": t.defaults.theme,
+    localized: t.defaults.localized,
+    required: t.defaults.required,
+    "auto min/max": t.defaults.autoDomain,
+    "teal scale": t.defaults.teal,
+    "scoped token": t.defaults.scoped,
+  };
   return (
     <div className="pg-table-wrap">
       <table className="pg-table">
         <thead>
           <tr>
-            <th scope="col">Prop</th>
-            <th scope="col">Type</th>
-            <th scope="col">Default</th>
-            <th scope="col">Notes</th>
+            <th scope="col">{t.prop}</th>
+            <th scope="col">{t.type}</th>
+            <th scope="col">{t.default}</th>
+            <th scope="col">{t.notes}</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => (
             <tr key={row.name}>
               <td>
-                <code>{row.name}</code>
+                <code dir="ltr" lang="en">
+                  {row.name}
+                </code>
               </td>
               <td>
-                <code className="pg-type">{row.type}</code>
+                <code className="pg-type" dir="ltr" lang="en">
+                  {row.type}
+                </code>
               </td>
               <td>
-                <code className="pg-default">{row.defaultValue}</code>
+                <code
+                  className="pg-default"
+                  dir={defaultLabels[row.defaultValue] ? undefined : "ltr"}
+                >
+                  {defaultLabels[row.defaultValue] ?? row.defaultValue}
+                </code>
               </td>
-              <td>{row.description}</td>
+              <td>{t.rows[row.descriptionKey]}</td>
             </tr>
           ))}
         </tbody>
@@ -158,42 +179,41 @@ function ApiTable({ rows }: { rows: ApiRow[] }) {
   );
 }
 
-export function ApiReference() {
+export function ApiReference({ locale }: { locale: Locale }) {
+  const t = SHOWCASE_MESSAGES[locale].api;
   return (
     <div className="pg-api">
       <article>
         <h3>
           <code>&lt;AfghanistanMap /&gt;</code>
         </h3>
-        <ApiTable rows={MAP_ROWS} />
+        <ApiTable rows={MAP_ROWS} locale={locale} />
       </article>
       <article>
         <h3>
           <code>&lt;AfghanistanChoropleth /&gt;</code>
         </h3>
-        <p className="pg-api-note">
-          Accepts every map prop plus the data-specific props below.
-        </p>
-        <ApiTable rows={CHOROPLETH_ROWS} />
+        <p className="pg-api-note">{t.mapPlus}</p>
+        <ApiTable rows={CHOROPLETH_ROWS} locale={locale} />
       </article>
       <article className="pg-api-utilities">
-        <h3>Utility exports</h3>
+        <h3>{t.utilities}</h3>
         <div className="pg-utility-grid">
           <div>
-            <code>getProvinces()</code>
-            <span>Immutable registry of all 34 provinces.</span>
+            <code dir="ltr">getProvinces()</code>
+            <span>{t.utilityDescriptions.getProvinces}</span>
           </div>
           <div>
-            <code>getProvinceByCode(code)</code>
-            <span>Canonical metadata for an ISO code.</span>
+            <code dir="ltr">getProvinceByCode(code)</code>
+            <span>{t.utilityDescriptions.getProvinceByCode}</span>
           </div>
           <div>
-            <code>getProvinceName(code, locale)</code>
-            <span>Localized name with a safe English fallback.</span>
+            <code dir="ltr">getProvinceName(code, locale)</code>
+            <span>{t.utilityDescriptions.getProvinceName}</span>
           </div>
           <div>
-            <code>isProvinceCode(value)</code>
-            <span>Runtime narrowing for untrusted strings.</span>
+            <code dir="ltr">isProvinceCode(value)</code>
+            <span>{t.utilityDescriptions.isProvinceCode}</span>
           </div>
         </div>
       </article>

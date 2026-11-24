@@ -1,5 +1,5 @@
 import { UI_STRINGS } from "../data/strings.js";
-import { getLocaleDirection } from "../data/provinces.js";
+import { INTL_LOCALES, getLocaleDirection } from "../data/provinces.js";
 import type { MapLegendProps } from "../types/index.js";
 import { createColorScale } from "../utils/colorScale.js";
 import { formatNumber } from "../utils/formatting.js";
@@ -31,6 +31,7 @@ export function MapLegend({
     <div
       className={["af-legend", className].filter(Boolean).join(" ")}
       dir={direction}
+      lang={INTL_LOCALES[locale]}
       role="group"
       aria-label={`${titleText}: ${format(min)} – ${format(max)}`}
       style={style}

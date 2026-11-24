@@ -78,5 +78,7 @@ describe("province registry", () => {
       }
       expect(INTL_LOCALES[locale].length).toBeGreaterThan(0);
     }
+    expect(INTL_LOCALES.prs).toBe("fa-AF");
+    expect(INTL_LOCALES.ps).toBe("ps-AF");
   });
 });

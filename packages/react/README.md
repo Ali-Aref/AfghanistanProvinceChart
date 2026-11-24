@@ -1,5 +1,7 @@
 # afghanistan-province-chart
 
+[English docs](https://github.com/Ali-Aref/AfghanistanProvinceChart/blob/production/docs/README.md) · [راهنمای دری](https://github.com/Ali-Aref/AfghanistanProvinceChart/blob/production/docs/prs/README.md) · [پښتو لارښود](https://github.com/Ali-Aref/AfghanistanProvinceChart/blob/production/docs/ps/README.md)
+
 Accessible, responsive SVG maps and choropleths for the 34 provinces of
 Afghanistan. React 18 and 19. No API keys, map services or runtime network
 requests.
@@ -69,6 +71,8 @@ Zero values keep a real position on the scale.
 
 Province names, tooltips, legends and accessible labels are localized. RTL
 affects interface chrome only; the map geometry is never mirrored.
+Vazirmatn is the preferred font for Dari and Pashto. Load it in your application
+for consistent rendering; the library does not fetch a font at runtime.
 
 ## Styling
 

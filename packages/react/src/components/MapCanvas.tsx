@@ -13,7 +13,12 @@ import {
   COUNTRY_OUTLINE_PATH,
   PROVINCE_GEOMETRY,
 } from "../data/geometry.js";
-import { PROVINCE_CODES, getLocaleDirection, getProvinceByCode } from "../data/provinces.js";
+import {
+  INTL_LOCALES,
+  PROVINCE_CODES,
+  getLocaleDirection,
+  getProvinceByCode,
+} from "../data/provinces.js";
 import { UI_STRINGS } from "../data/strings.js";
 import type {
   Locale,
@@ -335,6 +340,7 @@ export function MapCanvas({
       style={containerStyle}
       data-af-choropleth={choropleth ? "true" : "false"}
       data-af-locale={locale}
+      lang={INTL_LOCALES[locale]}
     >
       <svg
         className="af-map__svg"
@@ -402,7 +408,7 @@ export function MapCanvas({
       </svg>
 
       {interactive ? (
-        <div className="af-map__sr-only" aria-live="polite" aria-atomic="true">
+        <div className="af-map__sr-only" dir={direction} aria-live="polite" aria-atomic="true">
           {announcement}
         </div>
       ) : null}

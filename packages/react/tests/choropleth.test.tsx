@@ -100,11 +100,25 @@ describe("AfghanistanChoropleth", () => {
       <AfghanistanChoropleth data={PARTIAL_DATA} locale="prs" showLegend />,
     );
     expect(container.querySelector(".af-legend")).toHaveAttribute("dir", "rtl");
+    expect(container.querySelector(".af-legend")).toHaveAttribute("lang", "fa-AF");
     expect(container.querySelector(".af-legend__title")).toHaveTextContent(
       "ارزش به تفکیک ولایت",
     );
     fireEvent.focus(screen.getByRole("button", { name: /کابل/ }));
     expect(screen.getByRole("tooltip")).toHaveAttribute("dir", "rtl");
+  });
+
+  it("localizes missing data, legend and labels in Pashto", () => {
+    const { container } = render(
+      <AfghanistanChoropleth data={PARTIAL_DATA} locale="ps" showLegend />,
+    );
+    const legend = container.querySelector(".af-legend");
+    expect(legend).toHaveAttribute("dir", "rtl");
+    expect(legend).toHaveAttribute("lang", "ps-AF");
+    expect(legend).toHaveTextContent("معلومات نشته");
+    expect(screen.getByRole("button", { name: /کندهار.*معلومات نشته/ })).toBeInTheDocument();
+    fireEvent.focus(screen.getByRole("button", { name: /کندهار/ }));
+    expect(screen.getByRole("tooltip")).toHaveTextContent("معلومات نشته");
   });
 
   it("handles negative values deterministically", () => {

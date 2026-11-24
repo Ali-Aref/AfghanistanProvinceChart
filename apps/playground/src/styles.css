@@ -1,3 +1,15 @@
+/* Vazirmatn is self-hosted so Dari and Pashto work without a font CDN. */
+@font-face {
+  font-family: Vazirmatn;
+  src: url("./assets/fonts/vazirmatn-arabic.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range:
+    U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011,
+    U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -82,7 +94,7 @@ body {
   z-index: 1;
 }
 
-.pg a {
+.pg a:not(.pg-button) {
   color: inherit;
 }
 
@@ -91,10 +103,62 @@ body {
   outline-offset: 2px;
 }
 
+.pg-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+html[dir="rtl"] .pg {
+  --font: "Vazirmatn", "Noto Naskh Arabic", Tahoma, system-ui, sans-serif;
+  line-height: 1.7;
+}
+
+html[dir="rtl"]
+  .pg
+  :where(
+    h1,
+    h2,
+    h3,
+    em,
+    .pg-eyebrow,
+    .pg-pill,
+    .pg-float-kicker,
+    .pg-hero-map-caption,
+    .pg-brand small,
+    .pg-field > span,
+    .pg-field legend,
+    .pg-table th,
+    .pg-data-stats span
+  ) {
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+html[dir="rtl"] .pg-hero h1,
+html[dir="rtl"] .pg-section-head h2 {
+  line-height: 1.25;
+}
+
+html[dir="rtl"] .pg-hero h1 em {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 700;
+}
+
+html[dir="rtl"] .pg code[dir="ltr"],
+html[dir="rtl"] .pg pre {
+  unicode-bidi: isolate;
+}
+
 .pg-skip {
   position: absolute;
   top: -60px;
-  left: 20px;
+  inset-inline-start: 20px;
   z-index: 200;
   padding: 10px 16px;
   border-radius: 10px;
@@ -170,7 +234,61 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-left: auto;
+  margin-inline-start: auto;
+}
+
+.pg-site-language {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  padding-inline: 10px 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.pg-site-language:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.pg-site-language select {
+  width: 104px;
+  max-width: 140px;
+  padding: 8px 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  accent-color: var(--accent);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pg-site-language option {
+  background-color: var(--surface);
+  color: var(--ink);
+}
+
+.pg-site-language option:checked {
+  background: linear-gradient(var(--accent-soft), var(--accent-soft));
+  color: var(--ink);
+}
+
+.pg[data-theme="dark"] .pg-site-language option {
+  background-color: var(--surface-2);
+  color: var(--ink);
+}
+
+.pg[data-theme="dark"] .pg-site-language option:checked {
+  background: linear-gradient(var(--accent-soft), var(--accent-soft));
+  color: var(--accent);
+}
+
+.pg-site-language select:focus-visible {
+  outline: none;
 }
 
 .pg-nav a {
@@ -322,7 +440,8 @@ body {
   justify-content: space-between;
   gap: 12px;
   max-width: 420px;
-  padding: 7px 7px 7px 14px;
+  padding: 7px 14px 7px 7px;
+  padding-inline: 14px 7px;
   border: 1px solid var(--line);
   border-radius: 13px;
   background: var(--surface);
@@ -437,7 +556,7 @@ body {
 .pg-float-card {
   position: absolute;
   bottom: 14px;
-  left: max(-8px, 2%);
+  inset-inline-start: max(-8px, 2%);
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -554,6 +673,14 @@ body {
   line-height: 1.65;
 }
 
+.pg-docs-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--accent) !important;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .pg-demo-grid {
   display: grid;
   grid-template-columns: 330px minmax(0, 1fr);
@@ -608,7 +735,7 @@ body {
   border: 0;
 }
 
-.pg-field > span,
+.pg-field > span:not(.pg-select-shell),
 .pg-field legend {
   display: block;
   margin-bottom: 8px;
@@ -620,15 +747,32 @@ body {
   text-transform: uppercase;
 }
 
-.pg-field select {
-  width: 100%;
-  padding: 10px 12px;
+.pg-select-shell {
+  display: block;
+  padding-inline-end: 6px;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--surface-2);
+}
+
+.pg-select-shell:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.pg-field select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
   color: var(--ink);
   font-family: inherit;
   font-size: 13px;
+}
+
+.pg-select-shell select:focus-visible {
+  outline: none;
 }
 
 .pg-field-note {
@@ -797,7 +941,7 @@ body {
 .pg-demo-value {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: end;
   text-align: end;
 }
 
@@ -971,6 +1115,10 @@ body {
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
 }
 
+html[dir="rtl"] .pg-rank-bar {
+  background: linear-gradient(270deg, var(--accent), var(--accent-2));
+}
+
 .pg-rank strong {
   font-variant-numeric: tabular-nums;
   text-align: end;
@@ -1111,7 +1259,7 @@ body {
 
 .pg-locale-card strong {
   margin-top: auto;
-  font-family: "Noto Naskh Arabic", "Vazirmatn", "Segoe UI", sans-serif;
+  font-family: "Vazirmatn", "Noto Naskh Arabic", "Segoe UI", sans-serif;
   font-size: clamp(1.8rem, 3.2vw, 2.4rem);
   font-weight: 700;
   line-height: 1.2;
@@ -1443,7 +1591,7 @@ body {
   }
 
   .pg-float-card {
-    left: 0;
+    inset-inline-start: 0;
   }
 
   .pg-data-stats {

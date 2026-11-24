@@ -41,8 +41,6 @@ export const SAMPLE_DATA: ProvinceNumericData = {
   "AF-ZAB": null,
 };
 
-export const SAMPLE_METRIC_LABEL = "Illustrative service-reach index (0–100)";
-
 export const SAMPLE_TOP_VALUES = [
   { code: "AF-KAB", value: 96 },
   { code: "AF-HER", value: 72 },
