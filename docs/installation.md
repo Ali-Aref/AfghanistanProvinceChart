@@ -14,7 +14,7 @@ npm install afghanistan-province-chart
 yarn add afghanistan-province-chart
 ```
 
-> `0.1.0-beta.0` is not published to npm yet. Until it is published, install
+> `0.1.0` is not published to npm yet. Until it is published, install
 > the local tarball (`pnpm pack` in `packages/react`) or use the workspace.
 
 ## Peer dependencies
@@ -58,7 +58,7 @@ pnpm --filter afghanistan-province-chart pack --pack-destination .artifacts
 In a consumer project:
 
 ```bash
-pnpm add /absolute/path/to/.artifacts/afghanistan-province-chart-0.1.0-beta.0.tgz
+pnpm add /absolute/path/to/.artifacts/afghanistan-province-chart-0.1.0.tgz
 ```
 
 `pnpm verify:package` automates this for React 18 and React 19, including type

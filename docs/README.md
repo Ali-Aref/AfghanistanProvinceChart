@@ -22,7 +22,7 @@ Topics:
 
 ## Status
 
-Version `0.1.0-beta.0` has been reviewed but has not been published to npm.
+Version `0.1.0` has been reviewed but has not been published to npm.
 
 ## Screenshots
 

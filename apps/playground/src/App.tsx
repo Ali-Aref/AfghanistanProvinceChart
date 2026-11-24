@@ -196,7 +196,7 @@ export default function App() {
           <div className="pg-hero-copy">
             <span className="pg-pill">
               <span className="pg-pill-dot" aria-hidden="true" />
-              v0.1.0-beta.0 · MIT · no API keys
+              v0.1.0 · MIT · no API keys
             </span>
             <h1>
               Afghanistan,

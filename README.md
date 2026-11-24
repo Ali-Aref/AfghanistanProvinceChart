@@ -8,7 +8,7 @@
 
 ![The Afghanistan Province Charts playground](./docs/assets/playground-hero-light.png)
 
-> **Status:** `0.1.0-beta.0` has not been published to npm yet. The public API
+> **Status:** `0.1.0` has not been published to npm yet. The public API
 > and visual design have been reviewed. See [Release readiness](#release-readiness).
 
 `afghanistan-province-chart` renders the country as a responsive SVG. No API keys, map
@@ -34,7 +34,7 @@ choropleth and a two-stop color legend.
 - **SSR-safe:** no browser globals at module initialization; verified with
   `renderToString` and hydration tests.
 - **Lightweight:** D3 is build-time only. Geometry is serialized into the bundle
-  as SVG paths. Measured at `0.1.0-beta.0`: `dist/index.js` is about 94 kB raw
+  as SVG paths. Measured at `0.1.0`: `dist/index.js` is about 94 kB raw
   and **32.0 kB gzip**, including all 34 province paths; the stylesheet is
   **1.8 kB gzip**.
 
@@ -259,7 +259,7 @@ The npm package has not been published yet. Before `npm publish`:
 - [x] Public API and visual design reviewed by the maintainer.
 - [x] Package repository URL points to this GitHub repository.
 - [x] Check that `afghanistan-province-chart` is not currently listed on npm (recheck before publishing).
-- [ ] Publish `0.1.0-beta.0` when the maintainer is ready.
+- [ ] Publish `0.1.0` when the maintainer is ready.
 
 ## Contributing
 

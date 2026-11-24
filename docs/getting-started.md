@@ -127,7 +127,7 @@ The components do not read `window` or `document` at module initialization.
 
 ## Bundle size
 
-Measured from the built package at `0.1.0-beta.0`:
+Measured from the built package at `0.1.0`:
 
 - `dist/index.js`: about 94 kB raw, **32.0 kB gzip**, including all 34 province
   paths and the province registry.

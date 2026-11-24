@@ -28,6 +28,6 @@ All notable changes to this project are documented here. The format follows
 
 ### Notes
 
-- `0.1.0-beta.0` is not published to npm yet.
+- `0.1.0` is not published to npm yet.
 - Boundary data is from 2007 and is a generalised cartographic source, not a
   legal or survey-grade boundary.

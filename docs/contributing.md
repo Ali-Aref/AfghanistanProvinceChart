@@ -118,4 +118,4 @@ The maintainer handles releases. Before publishing:
 3. Run the checks above, pack the package and inspect its contents.
 4. Publish using an authorized npm account.
 
-`0.1.0-beta.0` has not been published to npm yet.
+`0.1.0` has not been published to npm yet.

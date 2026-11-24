@@ -1,6 +1,6 @@
 {
   "name": "afghanistan-province-chart",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0",
   "description": "Accessible, responsive SVG maps and choropleths for the 34 provinces of Afghanistan. No API keys, no runtime network requests.",
   "license": "MIT",
   "author": "Afghanistan Province Charts contributors",
