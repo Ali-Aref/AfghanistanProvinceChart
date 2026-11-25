@@ -14,9 +14,6 @@
 
 Localized screenshots: [Dari](./docs/assets/playground-hero-prs.png) · [Pashto](./docs/assets/playground-hero-ps.png).
 
-> **Status:** `0.1.0` has not been published to npm yet. The public API
-> and visual design have been reviewed. See [Release readiness](#release-readiness).
-
 `afghanistan-province-chart` renders the country as a responsive SVG. No API keys, map
 tiles, CDNs, external services or runtime network requests are involved. The
 package ships pre-projected geometry, a typed province registry, a data-driven
@@ -250,25 +247,6 @@ pnpm verify:package # pack, install in isolated React apps and build
 
 Regenerating geometry rewrites `packages/react/src/data/geometry.ts`. Review the
 diff before committing. Never edit that file by hand.
-
-## Release readiness
-
-The npm package has not been published yet. Before `npm publish`:
-
-- [x] 34 provinces render with canonical ISO identifiers.
-- [x] Pointer, touch and keyboard interaction tests pass.
-- [x] Localization and RTL chrome verified.
-- [x] Choropleth missing/zero/negative behavior tested.
-- [x] Unit, component, SSR, hydration, accessibility and Playwright tests pass.
-- [x] Geographic provenance and checksums validated.
-- [x] Package exports, declarations and packed tarball inspected.
-- [x] Public API and visual design reviewed by the maintainer.
-- [x] Package repository URL points to this GitHub repository.
-- [x] Check that `afghanistan-province-chart` is not currently listed on npm (recheck before publishing).
-- [ ] Publish `0.1.0` when the maintainer is ready.
-
-For the `dev` → `production` release flow and required GitHub/npm settings, see
-[docs/releasing.md](./docs/releasing.md).
 
 ## Contributing
 

@@ -6,9 +6,6 @@ Accessible, responsive SVG maps and choropleths for the 34 provinces of
 Afghanistan. React 18 and 19. No API keys, map services or runtime network
 requests.
 
-> **Status:** `0.1.0` is not published to npm yet. The public API and
-> visual design have been reviewed.
-
 ## Install
 
 ```bash

@@ -22,10 +22,6 @@ Topics:
 - [Geographic data and licensing](./data-and-licensing.md)
 - [Contributing](./contributing.md)
 
-## Status
-
-Version `0.1.0` has been reviewed but has not been published to npm.
-
 ## Screenshots
 
 All screenshots under `docs/assets/` were captured from the real playground by
